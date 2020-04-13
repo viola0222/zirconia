@@ -12,91 +12,91 @@
 #include "usart.h"
 #include "gpio.h"
 
-/* •Ö—˜‚È’è”ŒQ */
-#define G					(9.80665f)					// d—Ê‰Á‘¬“x[m/s^2]
-#define PI					(3.1415926f)				// ‰~ü—¦
-#define SQRT2				(1.41421356237f)			// ƒ‹[ƒg2
-#define SQRT3				(1.73205080757f)			// ƒ‹[ƒg3
-#define SQRT5				(2.2360679775f)				// ƒ‹[ƒg5
-#define SQRT7				(2.64575131106f)			// ƒ‹[ƒg7
+/* ä¾¿åˆ©ãªå®šæ•°ç¾¤ */
+#define G					(9.80665f)					// é‡é‡åŠ é€Ÿåº¦[m/s^2]
+#define PI					(3.1415926f)				// å††å‘¨ç‡
+#define SQRT2				(1.41421356237f)			// ãƒ«ãƒ¼ãƒˆ2
+#define SQRT3				(1.73205080757f)			// ãƒ«ãƒ¼ãƒˆ3
+#define SQRT5				(2.2360679775f)				// ãƒ«ãƒ¼ãƒˆ5
+#define SQRT7				(2.64575131106f)			// ãƒ«ãƒ¼ãƒˆ7
 
-/* •Ö—˜‚Èƒ}ƒNƒŠÖ”ŒQ */
-#define DEG2RAD(x)			(((x)/180.0f)*PI)			// “x”–@‚©‚çƒ‰ƒWƒAƒ“‚É•ÏŠ·
-#define RAD2DEG(x)			(180.0f*((x)/PI))			// ƒ‰ƒWƒAƒ“‚©‚ç“x”–@‚É•ÏŠ·
+/* ä¾¿åˆ©ãªãƒã‚¯ãƒ­é–¢æ•°ç¾¤ */
+#define DEG2RAD(x)			(((x)/180.0f)*PI)			// åº¦æ•°æ³•ã‹ã‚‰ãƒ©ã‚¸ã‚¢ãƒ³ã«å¤‰æ›
+#define RAD2DEG(x)			(180.0f*((x)/PI))			// ãƒ©ã‚¸ã‚¢ãƒ³ã‹ã‚‰åº¦æ•°æ³•ã«å¤‰æ›
 #define SWAP(a, b) 			((a != b) && (a += b, b = a - b, a -= b))
-#define ABS(x) 				((x) < 0 ? -(x) : (x))		// â‘Î’l
-#define SIGN(x)				((x) < 0 ? -1 : 1)			// •„†
-#define MAX(a, b) 			((a) > (b) ? (a) : (b))		// 2‚Â‚Ì‚¤‚¿‘å‚«‚¢•û‚ğ•Ô‚µ‚Ü‚·
-#define MIN(a, b) 			((a) < (b) ? (a) : (b))		// 2‚Â‚Ì‚¤‚¿¬‚³‚¢•û‚ğ•Ô‚µ‚Ü‚·
+#define ABS(x) 				((x) < 0 ? -(x) : (x))		// çµ¶å¯¾å€¤
+#define SIGN(x)				((x) < 0 ? -1 : 1)			// ç¬¦å·
+#define MAX(a, b) 			((a) > (b) ? (a) : (b))		// 2ã¤ã®ã†ã¡å¤§ãã„æ–¹ã‚’è¿”ã—ã¾ã™
+#define MIN(a, b) 			((a) < (b) ? (a) : (b))		// 2ã¤ã®ã†ã¡å°ã•ã„æ–¹ã‚’è¿”ã—ã¾ã™
 #define MAX3(a, b, c) 		((a) > (MAX(b, c)) ? (a) : (MAX(b, c)))
 #define MIN3(a, b, c) 		((a) < (MIN(b, c)) ? (a) : (MIN(b, c)))
 
-/* LEDŠÖ”ŒQ */
-#define LED_YELLOW_ON()		HAL_GPIO_WritePin( LED_Yellow_GPIO_Port, LED_Yellow_Pin, GPIO_PIN_SET)		// ‰©LED‚ğ“_“”‚·‚é
-#define LED_YELLOW_OFF()	HAL_GPIO_WritePin( LED_Yellow_GPIO_Port, LED_Yellow_Pin, GPIO_PIN_RESET)	// ‰©LED‚ğÁ“”‚·‚é
-#define LED_YELLOW_TOGGLE()	HAL_GPIO_TogglePin(LED_Yellow_GPIO_Port, LED_Yellow_Pin)					// ‚±‚ÌŠÖ”‚ğŒÄ‚Ô‚½‚Ñ‚É‰©LED‚Ì“_“”‚ÆÁ“”‚ğØ‚è‘Ö‚¦‚é
-#define LED_RED_ON()		HAL_GPIO_WritePin( LED_Red_GPIO_Port, 	 LED_Red_Pin, 	 GPIO_PIN_SET)		// ÔLED‚ğ“_“”‚·‚é
-#define LED_RED_OFF()		HAL_GPIO_WritePin( LED_Red_GPIO_Port, 	 LED_Red_Pin,    GPIO_PIN_RESET)	// ÔLED‚ğÁ“”‚·‚é
-#define LED_RED_TOGGLE()	HAL_GPIO_TogglePin(LED_Red_GPIO_Port, 	 LED_Red_Pin)						// ‚±‚ÌŠÖ”‚ğŒÄ‚Ô‚½‚Ñ‚ÉÔLED‚Ì“_“”‚ÆÁ“”‚ğØ‚è‘Ö‚¦‚é
-#define LED_GREEN_ON()		HAL_GPIO_WritePin( LED_Green_GPIO_Port,  LED_Green_Pin,  GPIO_PIN_SET)		// —ÎLED‚ğ“_“”‚·‚é
-#define LED_GREEN_OFF()		HAL_GPIO_WritePin( LED_Green_GPIO_Port,  LED_Green_Pin,  GPIO_PIN_RESET)	// —ÎLED‚ğÁ“”‚·‚é
-#define LED_GREEN_TOGGLE()	HAL_GPIO_TogglePin(LED_Green_GPIO_Port,  LED_Green_Pin)						// ‚±‚ÌŠÖ”‚ğŒÄ‚Ô‚½‚Ñ‚É—ÎLED‚Ì“_“”‚ÆÁ“”‚ğØ‚è‘Ö‚¦‚é
-#define LED_BLUE_ON()		HAL_GPIO_WritePin( LED_Blue_GPIO_Port, 	 LED_Blue_Pin,   GPIO_PIN_SET)		// ÂLED‚ğ“_“”‚·‚é
-#define LED_BLUE_OFF()		HAL_GPIO_WritePin( LED_Blue_GPIO_Port, 	 LED_Blue_Pin,   GPIO_PIN_RESET)	// ÂLED‚ğÁ“”‚·‚é
-#define LED_BLUE_TOGGLE()	HAL_GPIO_TogglePin(LED_Blue_GPIO_Port, 	 LED_Blue_Pin)						// ‚±‚ÌŠÖ”‚ğŒÄ‚Ô‚½‚Ñ‚ÉÂLED‚Ì“_“”‚ÆÁ“”‚ğØ‚è‘Ö‚¦‚é
-#define LED_ALL_ON()		HAL_GPIO_WritePin(GPIOA, LED_Yellow_Pin|LED_Red_Pin|LED_Green_Pin|LED_Blue_Pin, GPIO_PIN_SET)	// ‘SLED‚ğ“_“”‚·‚é
-#define LED_ALL_OFF()		HAL_GPIO_WritePin(GPIOA, LED_Yellow_Pin|LED_Red_Pin|LED_Green_Pin|LED_Blue_Pin, GPIO_PIN_RESET)	// ‘SLED‚ğÁ“”‚·‚é
-#define LED_ALL_TOGGLE()	HAL_GPIO_TogglePin(GPIOA, LED_Yellow_Pin|LED_Red_Pin|LED_Green_Pin|LED_Blue_Pin)				// ‘SLED‚Ì“_“”‚ÆÁ“”‚ğØ‚è‘Ö‚¦‚é
+/* LEDé–¢æ•°ç¾¤ */
+#define LED_YELLOW_ON()		HAL_GPIO_WritePin( LED_Yellow_GPIO_Port, LED_Yellow_Pin, GPIO_PIN_SET)		// é»„LEDã‚’ç‚¹ç¯ã™ã‚‹
+#define LED_YELLOW_OFF()	HAL_GPIO_WritePin( LED_Yellow_GPIO_Port, LED_Yellow_Pin, GPIO_PIN_RESET)	// é»„LEDã‚’æ¶ˆç¯ã™ã‚‹
+#define LED_YELLOW_TOGGLE()	HAL_GPIO_TogglePin(LED_Yellow_GPIO_Port, LED_Yellow_Pin)					// ã“ã®é–¢æ•°ã‚’å‘¼ã¶ãŸã³ã«é»„LEDã®ç‚¹ç¯ã¨æ¶ˆç¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+#define LED_RED_ON()		HAL_GPIO_WritePin( LED_Red_GPIO_Port, 	 LED_Red_Pin, 	 GPIO_PIN_SET)		// èµ¤LEDã‚’ç‚¹ç¯ã™ã‚‹
+#define LED_RED_OFF()		HAL_GPIO_WritePin( LED_Red_GPIO_Port, 	 LED_Red_Pin,    GPIO_PIN_RESET)	// èµ¤LEDã‚’æ¶ˆç¯ã™ã‚‹
+#define LED_RED_TOGGLE()	HAL_GPIO_TogglePin(LED_Red_GPIO_Port, 	 LED_Red_Pin)						// ã“ã®é–¢æ•°ã‚’å‘¼ã¶ãŸã³ã«èµ¤LEDã®ç‚¹ç¯ã¨æ¶ˆç¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+#define LED_GREEN_ON()		HAL_GPIO_WritePin( LED_Green_GPIO_Port,  LED_Green_Pin,  GPIO_PIN_SET)		// ç·‘LEDã‚’ç‚¹ç¯ã™ã‚‹
+#define LED_GREEN_OFF()		HAL_GPIO_WritePin( LED_Green_GPIO_Port,  LED_Green_Pin,  GPIO_PIN_RESET)	// ç·‘LEDã‚’æ¶ˆç¯ã™ã‚‹
+#define LED_GREEN_TOGGLE()	HAL_GPIO_TogglePin(LED_Green_GPIO_Port,  LED_Green_Pin)						// ã“ã®é–¢æ•°ã‚’å‘¼ã¶ãŸã³ã«ç·‘LEDã®ç‚¹ç¯ã¨æ¶ˆç¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+#define LED_BLUE_ON()		HAL_GPIO_WritePin( LED_Blue_GPIO_Port, 	 LED_Blue_Pin,   GPIO_PIN_SET)		// é’LEDã‚’ç‚¹ç¯ã™ã‚‹
+#define LED_BLUE_OFF()		HAL_GPIO_WritePin( LED_Blue_GPIO_Port, 	 LED_Blue_Pin,   GPIO_PIN_RESET)	// é’LEDã‚’æ¶ˆç¯ã™ã‚‹
+#define LED_BLUE_TOGGLE()	HAL_GPIO_TogglePin(LED_Blue_GPIO_Port, 	 LED_Blue_Pin)						// ã“ã®é–¢æ•°ã‚’å‘¼ã¶ãŸã³ã«é’LEDã®ç‚¹ç¯ã¨æ¶ˆç¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+#define LED_ALL_ON()		HAL_GPIO_WritePin(GPIOA, LED_Yellow_Pin|LED_Red_Pin|LED_Green_Pin|LED_Blue_Pin, GPIO_PIN_SET)	// å…¨LEDã‚’ç‚¹ç¯ã™ã‚‹
+#define LED_ALL_OFF()		HAL_GPIO_WritePin(GPIOA, LED_Yellow_Pin|LED_Red_Pin|LED_Green_Pin|LED_Blue_Pin, GPIO_PIN_RESET)	// å…¨LEDã‚’æ¶ˆç¯ã™ã‚‹
+#define LED_ALL_TOGGLE()	HAL_GPIO_TogglePin(GPIOA, LED_Yellow_Pin|LED_Red_Pin|LED_Green_Pin|LED_Blue_Pin)				// å…¨LEDã®ç‚¹ç¯ã¨æ¶ˆç¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 
-/* ƒXƒCƒbƒ`ŠÖ”ŒQ */
-#define SWITCH_ONOFF()		HAL_GPIO_ReadPin(Switch_GPIO_Port, Switch_Pin)				// ƒXƒCƒbƒ`‚ª‰Ÿ‚³‚ê‚é‚ÆƒnƒC‚ª•Ô‚Á‚Ä‚­‚é
+/* ã‚¹ã‚¤ãƒƒãƒé–¢æ•°ç¾¤ */
+#define SWITCH_ONOFF()		HAL_GPIO_ReadPin(Switch_GPIO_Port, Switch_Pin)				// ã‚¹ã‚¤ãƒƒãƒãŒæŠ¼ã•ã‚Œã‚‹ã¨ãƒã‚¤ãŒè¿”ã£ã¦ãã‚‹
 
-/* UART’ÊMŠÖ”ŒQ(communication.c) */
-/* ©“®¶¬‚³‚ê‚½syscalls.c‚ğSrcƒtƒ@ƒCƒ‹‚ÉˆÚ‚µAstdio.h‚ğƒCƒ“ƒNƒ‹[ƒh‚·‚é‚±‚Æ‚Åprintf‚âscanf‚àg—p‰Â”\ */
-void 		Communication_TerminalSend( uint8_t );		// 1•¶š‘—M
-uint8_t 	Communication_TerminalRecv( void );			// 1•¶šóM
-void 		Communication_Initialize( void );			// printf‚Æscanf‚ğg—p‚·‚é‚½‚ß‚Ìİ’è
-void 		Communication_ClearScreen( void );			// ‰æ–ÊƒNƒŠƒA&ƒJ[ƒ\ƒ‹‰Šú‰»
+/* UARTé€šä¿¡é–¢æ•°ç¾¤(communication.c) */
+/* è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸsyscalls.cã‚’Srcãƒ•ã‚¡ã‚¤ãƒ«ã«ç§»ã—ã€stdio.hã‚’ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã™ã‚‹ã“ã¨ã§printfã‚„scanfã‚‚ä½¿ç”¨å¯èƒ½ */
+void 		Communication_TerminalSend( uint8_t );		// 1æ–‡å­—é€ä¿¡
+uint8_t 	Communication_TerminalRecv( void );			// 1æ–‡å­—å—ä¿¡
+void 		Communication_Initialize( void );			// printfã¨scanfã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®è¨­å®š
+void 		Communication_ClearScreen( void );			// ç”»é¢ã‚¯ãƒªã‚¢&ã‚«ãƒ¼ã‚½ãƒ«åˆæœŸåŒ–
 
-/* ƒ‚[ƒ^ŠÖ”ŒQ(motor.c) */
-void 		Motor_Initialize( void );					// ƒ‚[ƒ^‹ì“®—pƒ^ƒCƒ}[‚ÌŠJn
-void 		Motor_StopPWM( void );						// ƒ‚[ƒ^‚ğ’â~
-void 		Motor_SetDuty_Left( int16_t );				// ¶ƒ‚[ƒ^‚ğw’è‚µ‚½Duty‚Å‰ñ“]‚³‚¹‚é[0-1000]
-void 		Motor_SetDuty_Right( int16_t );				// ‰Eƒ‚[ƒ^‚ğw’è‚µ‚½Duty‚Å‰ñ“]‚³‚¹‚é[0-1000]
+/* ãƒ¢ãƒ¼ã‚¿é–¢æ•°ç¾¤(motor.c) */
+void 		Motor_Initialize( void );					// ãƒ¢ãƒ¼ã‚¿é§†å‹•ç”¨ã‚¿ã‚¤ãƒãƒ¼ã®é–‹å§‹
+void 		Motor_StopPWM( void );						// ãƒ¢ãƒ¼ã‚¿ã‚’åœæ­¢
+void 		Motor_SetDuty_Left( int16_t );				// å·¦ãƒ¢ãƒ¼ã‚¿ã‚’æŒ‡å®šã—ãŸDutyã§å›è»¢ã•ã›ã‚‹[0-1000]
+void 		Motor_SetDuty_Right( int16_t );				// å³ãƒ¢ãƒ¼ã‚¿ã‚’æŒ‡å®šã—ãŸDutyã§å›è»¢ã•ã›ã‚‹[0-1000]
 
-/* ƒGƒ“ƒR[ƒ_ŠÖ”ŒQ(encoder.c) */
-void 		Encoder_Initialize( void );					// ƒGƒ“ƒR[ƒ_—pƒ^ƒCƒ}[‚ÌŠJn
-void 		Encoder_ResetCount_Left( void );			// ¶ƒGƒ“ƒR[ƒ_‚ÌƒJƒEƒ“ƒg‚ğ‰Šú’l‚É‚·‚é
-void 		Encoder_ResetCount_Right( void );			// ‰EƒGƒ“ƒR[ƒ_‚ÌƒJƒEƒ“ƒg‚ğ‰Šú’l‚É‚·‚é
-float 		Encoder_GetAngle_Left( void );				// ¶ƒ^ƒCƒ„‚ÌŠp“x‚ğæ“¾‚·‚é[rad]
-float 		Encoder_GetAngle_Right( void );				// ‰Eƒ^ƒCƒ„‚ÌŠp“x‚ğæ“¾‚·‚é[rad]
+/* ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€é–¢æ•°ç¾¤(encoder.c) */
+void 		Encoder_Initialize( void );					// ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€ç”¨ã‚¿ã‚¤ãƒãƒ¼ã®é–‹å§‹
+void 		Encoder_ResetCount_Left( void );			// å·¦ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€ã®ã‚«ã‚¦ãƒ³ãƒˆã‚’åˆæœŸå€¤ã«ã™ã‚‹
+void 		Encoder_ResetCount_Right( void );			// å³ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€ã®ã‚«ã‚¦ãƒ³ãƒˆã‚’åˆæœŸå€¤ã«ã™ã‚‹
+float 		Encoder_GetAngle_Left( void );				// å·¦ã‚¿ã‚¤ãƒ¤ã®è§’åº¦ã‚’å–å¾—ã™ã‚‹[rad]
+float 		Encoder_GetAngle_Right( void );				// å³ã‚¿ã‚¤ãƒ¤ã®è§’åº¦ã‚’å–å¾—ã™ã‚‹[rad]
 
-/* Šµ«ƒZƒ“ƒTŠÖ”ŒQ(imu.c) */
-uint8_t		IMU_CheckWHOAMI( void );					// Šµ«ƒZƒ“ƒT‚Ì“®ìŠm”FŠÖ”(0xe0‚ª•Ô‚Á‚Ä‚­‚ê‚Î³í)
-void		IMU_Initialize( void );						// Šµ«ƒZƒ“ƒT‚Ì‰Šúİ’è
-void 		IMU_ResetReference( void );					// Šµ«ƒZƒ“ƒT‚ÌƒŠƒtƒ@ƒŒƒ“ƒX‚ğ•â³‚·‚é
-float 		IMU_GetAccel_X( void );						// X²‰Á‘¬“xŒv‚Ì‰Á‘¬“x‚ğæ“¾‚·‚é[m/s^2]
-float 		IMU_GetGyro_Z( void );						// Z²ƒWƒƒƒCƒ‚ÌŠp‘¬“x‚ğæ“¾‚·‚é[rad/s]
+/* æ…£æ€§ã‚»ãƒ³ã‚µé–¢æ•°ç¾¤(imu.c) */
+uint8_t		IMU_CheckWHOAMI( void );					// æ…£æ€§ã‚»ãƒ³ã‚µã®å‹•ä½œç¢ºèªé–¢æ•°(0xe0ãŒè¿”ã£ã¦ãã‚Œã°æ­£å¸¸)
+void		IMU_Initialize( void );						// æ…£æ€§ã‚»ãƒ³ã‚µã®åˆæœŸè¨­å®š
+void 		IMU_ResetReference( void );					// æ…£æ€§ã‚»ãƒ³ã‚µã®ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚’è£œæ­£ã™ã‚‹
+float 		IMU_GetAccel_X( void );						// Xè»¸åŠ é€Ÿåº¦è¨ˆã®åŠ é€Ÿåº¦ã‚’å–å¾—ã™ã‚‹[m/s^2]
+float 		IMU_GetGyro_Z( void );						// Zè»¸ã‚¸ãƒ£ã‚¤ãƒ­ã®è§’é€Ÿåº¦ã‚’å–å¾—ã™ã‚‹[rad/s]
 
-/* ÔŠOƒZƒ“ƒTŠÖ”ŒQ(ir_sensor.c) */
-void 		Sensor_Initialize( void );					// AD•ÏŠ·‚Ì‰Šúİ’è
-void 		Sensor_StartADC( void );					// AD•ÏŠ·‚ğŠJn‚·‚é
-void 		Sensor_StopADC( void );						// AD•ÏŠ·‚ğ’â~‚·‚é
-uint16_t 	Sensor_GetBatteryValue( void );				// “dŒ¹“dˆ³‚ÌAD’l‚ğæ“¾‚·‚é
-int16_t 	Sensor_GetValue( uint8_t );					// ÔŠOƒZƒ“ƒT‚ÌLEDƒIƒ“ƒIƒt·•ª’l‚ğæ“¾‚·‚é
-														// 0:‘O‰EA1:‰¡‰EA2:‰¡¶A3:‘O¶
-/* ƒoƒbƒeƒŠ[ŠÖ”ŒQ(battery.c) */
-float 		Battery_GetVoltage( void );					// ƒoƒbƒeƒŠ‚Ì“dˆ³‚ğæ“¾‚·‚é[V]
-void 		Battery_LimiterVoltage( void );				// ƒoƒbƒeƒŠ‚Ì“dˆ³‚ª3.2VˆÈ‰º‚É‚È‚é‚Æ‹N“®‚µ‚È‚¢‚æ‚¤‚É§ŒÀ‚·‚é
+/* èµ¤å¤–ã‚»ãƒ³ã‚µé–¢æ•°ç¾¤(ir_sensor.c) */
+void 		Sensor_Initialize( void );					// ADå¤‰æ›ã®åˆæœŸè¨­å®š
+void 		Sensor_StartADC( void );					// ADå¤‰æ›ã‚’é–‹å§‹ã™ã‚‹
+void 		Sensor_StopADC( void );						// ADå¤‰æ›ã‚’åœæ­¢ã™ã‚‹
+uint16_t 	Sensor_GetBatteryValue( void );				// é›»æºé›»åœ§ã®ADå€¤ã‚’å–å¾—ã™ã‚‹
+int16_t 	Sensor_GetValue( uint8_t );					// èµ¤å¤–ã‚»ãƒ³ã‚µã®LEDã‚ªãƒ³ã‚ªãƒ•å·®åˆ†å€¤ã‚’å–å¾—ã™ã‚‹
+														// 0:å‰å³ã€1:æ¨ªå³ã€2:æ¨ªå·¦ã€3:å‰å·¦
+/* ãƒãƒƒãƒ†ãƒªãƒ¼é–¢æ•°ç¾¤(battery.c) */
+float 		Battery_GetVoltage( void );					// ãƒãƒƒãƒ†ãƒªã®é›»åœ§ã‚’å–å¾—ã™ã‚‹[V]
+void 		Battery_LimiterVoltage( void );				// ãƒãƒƒãƒ†ãƒªã®é›»åœ§ãŒ3.2Vä»¥ä¸‹ã«ãªã‚‹ã¨èµ·å‹•ã—ãªã„ã‚ˆã†ã«åˆ¶é™ã™ã‚‹
 
-/* Š„‚è‚İŠÖ”ŒQ(interrupt.c) */
-void 		Interrupt_Initialize( void );				// ƒƒCƒ“‚ÌŠ„‚è‚İˆ—‚Ì‰Šúİ’è
-void 		Interrupt_Main( void );						// ƒƒCƒ“‚ÌŠ„‚è‚İˆ—‚ğ‘‚­
-uint16_t 	Interrupt_GetDuty( void );					// Š„‚è‚İˆ—“à‚ÌŒvZŠ„‡‚ğæ“¾‚·‚é
-uint16_t 	Interrupt_GetDuty_Max( void );				// Š„‚è‚İˆ—“à‚ÌÅ‘åŒvZŠ„‡‚ğæ“¾‚·‚é
-float		Interrupt_GetBootTime( void );				// ƒ}ƒCƒRƒ“‚ª‹N“®‚µ‚Ä‚©‚çŒo‰ß‚µ‚½ŠÔ‚ğæ“¾‚·‚é[s]
+/* å‰²ã‚Šè¾¼ã¿é–¢æ•°ç¾¤(interrupt.c) */
+void 		Interrupt_Initialize( void );				// ãƒ¡ã‚¤ãƒ³ã®å‰²ã‚Šè¾¼ã¿å‡¦ç†ã®åˆæœŸè¨­å®š
+void 		Interrupt_Main( void );						// ãƒ¡ã‚¤ãƒ³ã®å‰²ã‚Šè¾¼ã¿å‡¦ç†ã‚’æ›¸ã
+uint16_t 	Interrupt_GetDuty( void );					// å‰²ã‚Šè¾¼ã¿å‡¦ç†å†…ã®è¨ˆç®—å‰²åˆã‚’å–å¾—ã™ã‚‹
+uint16_t 	Interrupt_GetDuty_Max( void );				// å‰²ã‚Šè¾¼ã¿å‡¦ç†å†…ã®æœ€å¤§è¨ˆç®—å‰²åˆã‚’å–å¾—ã™ã‚‹
+float		Interrupt_GetBootTime( void );				// ãƒã‚¤ã‚³ãƒ³ãŒèµ·å‹•ã—ã¦ã‹ã‚‰çµŒéã—ãŸæ™‚é–“ã‚’å–å¾—ã™ã‚‹[s]
 
-/* ƒ‚ƒWƒ…[ƒ‹ƒeƒXƒgŠÖ”ŒQ(module_test.c) */
-void 		module_test( void );						// ‘Sƒ‚ƒWƒ…[ƒ‹‚Ì“®ìŠm”F—pƒeƒXƒgŠÖ”
+/* ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãƒ†ã‚¹ãƒˆé–¢æ•°ç¾¤(module_test.c) */
+void 		module_test( void );						// å…¨ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®å‹•ä½œç¢ºèªç”¨ãƒ†ã‚¹ãƒˆé–¢æ•°
 
 #endif /* INDEX_H_ */

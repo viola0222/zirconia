@@ -2,32 +2,32 @@
 #include "index.h"
 #include "ICM20648_Register.h"
 
-#define REFFERENCE_NUM		(1000)		// ‰½‰ñ‚Ì•½‹Ï‚ğ‚à‚Á‚ÄƒWƒƒƒCƒ‚ÌƒŠƒtƒ@ƒŒƒ“ƒX“dˆ³‚Æ‚·‚é‚©
+#define REFFERENCE_NUM		(1000)		// ä½•å›ã®å¹³å‡ã‚’ã‚‚ã£ã¦ã‚¸ãƒ£ã‚¤ãƒ­ã®ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹é›»åœ§ã¨ã™ã‚‹ã‹
 
-// ƒWƒƒƒCƒŠÖ˜Aƒ}ƒNƒ
-#define GYRO_Z_SIGN			(-1.f)		// ƒWƒƒƒCƒ‚Ìo—Í‚Ì•„†i©•ª‚ÌÀ•WŒn‚É‡‚Á‚½•ûŒü‚ÉA1.0f‚©|1.0f‚ğŠ|‚¯‚ÄC³‚·‚éj
+// ã‚¸ãƒ£ã‚¤ãƒ­é–¢é€£ãƒã‚¯ãƒ­
+#define GYRO_Z_SIGN			(-1.f)		// ã‚¸ãƒ£ã‚¤ãƒ­ã®å‡ºåŠ›ã®ç¬¦å·ï¼ˆè‡ªåˆ†ã®åº§æ¨™ç³»ã«åˆã£ãŸæ–¹å‘ã«ã€1.0fã‹ï¼1.0fã‚’æ›ã‘ã¦ä¿®æ­£ã™ã‚‹ï¼‰
 #define GYRO_Z_SENSITIVITY	(16.4f)
 
-// ‰Á‘¬“xŒvŠÖ˜Aƒ}ƒNƒ
-#define ACCEL_X_SIGN		(1.f)		// ‰Á‘¬“xŒv‚Ìo—Í‚Ì•„†i©•ª‚ÌÀ•WŒn‚É‡‚Á‚½•ûŒü‚ÉA1.0f‚©|1.0f‚ğŠ|‚¯‚ÄC³‚·‚éj
+// åŠ é€Ÿåº¦è¨ˆé–¢é€£ãƒã‚¯ãƒ­
+#define ACCEL_X_SIGN		(1.f)		// åŠ é€Ÿåº¦è¨ˆã®å‡ºåŠ›ã®ç¬¦å·ï¼ˆè‡ªåˆ†ã®åº§æ¨™ç³»ã«åˆã£ãŸæ–¹å‘ã«ã€1.0fã‹ï¼1.0fã‚’æ›ã‘ã¦ä¿®æ­£ã™ã‚‹ï¼‰
 #define ACCEL_X_SENSITIVITY	(4096.f)
 
-// ƒ[ƒJƒ‹ŠÖ”éŒ¾
+// ãƒ­ãƒ¼ã‚«ãƒ«é–¢æ•°å®£è¨€
 void 	IMU_Write1byte( uint8_t , uint8_t );
 uint8_t IMU_Read1byte( uint8_t );
 
-// ƒOƒ[ƒoƒ‹•Ï”éŒ¾
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°å®£è¨€
 static uint8_t  imu_address = ACCEL_XOUT_H | 0x80;
-static uint8_t	imu_value[13];			// value[0]‚Íƒ_ƒ~[ƒf[ƒ^
+static uint8_t	imu_value[13];			// value[0]ã¯ãƒ€ãƒŸãƒ¼ãƒ‡ãƒ¼ã‚¿
 
-static int16_t	accel_x_value;			// X²‰Á‘¬“xŒv‚Ì¶ƒf[ƒ^
-static int16_t	accel_x_reference;		// X²‰Á‘¬“xŒv‚ÌƒŠƒtƒ@ƒŒƒ“ƒX
+static int16_t	accel_x_value;			// Xè»¸åŠ é€Ÿåº¦è¨ˆã®ç”Ÿãƒ‡ãƒ¼ã‚¿
+static int16_t	accel_x_reference;		// Xè»¸åŠ é€Ÿåº¦è¨ˆã®ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹
 
-static int16_t	gyro_z_value;			// Z²ƒWƒƒƒCƒ‚Ì¶ƒf[ƒ^
-static int16_t	gyro_z_reference;		// Z²ƒWƒƒƒCƒ‚ÌƒŠƒtƒ@ƒŒƒ“ƒX
+static int16_t	gyro_z_value;			// Zè»¸ã‚¸ãƒ£ã‚¤ãƒ­ã®ç”Ÿãƒ‡ãƒ¼ã‚¿
+static int16_t	gyro_z_reference;		// Zè»¸ã‚¸ãƒ£ã‚¤ãƒ­ã®ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹
 
 /* ---------------------------------------------------------------
-	ICM20648‚É1byte‘‚«‚ŞŠÖ”
+	ICM20648ã«1byteæ›¸ãè¾¼ã‚€é–¢æ•°
 --------------------------------------------------------------- */
 void IMU_Write1byte( uint8_t addr , uint8_t data )
 {
@@ -40,11 +40,11 @@ void IMU_Write1byte( uint8_t addr , uint8_t data )
 }
 
 /* ---------------------------------------------------------------
-	ICM20648‚©‚ç1byte“Ç‚İo‚·ŠÖ”
+	ICM20648ã‹ã‚‰1byteèª­ã¿å‡ºã™é–¢æ•°
 --------------------------------------------------------------- */
 uint8_t IMU_Read1byte( uint8_t addr )
 {
-	// ‘—Mƒoƒbƒtƒ@‚É‘‚«‚İ //
+	// é€ä¿¡ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã¿ //
 	uint8_t address = addr | 0x80;
 	uint8_t value;
 
@@ -57,7 +57,7 @@ uint8_t IMU_Read1byte( uint8_t addr )
 }
 
 /* ---------------------------------------------------------------
-	ICM20648‚Ì“®ìŠm”FŠÖ”iWHO_AM_I(0xe0)‚ğæ“¾‚·‚éj
+	ICM20648ã®å‹•ä½œç¢ºèªé–¢æ•°ï¼ˆWHO_AM_I(0xe0)ã‚’å–å¾—ã™ã‚‹ï¼‰
 --------------------------------------------------------------- */
 uint8_t IMU_CheckWHOAMI( void )
 {
@@ -65,38 +65,38 @@ uint8_t IMU_CheckWHOAMI( void )
 }
 
 /* ---------------------------------------------------------------
-	ICM20648‚Ì‰Šúİ’è—pŠÖ”
+	ICM20648ã®åˆæœŸè¨­å®šç”¨é–¢æ•°
 --------------------------------------------------------------- */
 void IMU_Initialize( void )
 {
-	IMU_Write1byte(REG_BANK_SEL, REG_USER_BANK_0);	// ƒoƒ“ƒN‚ÌØ‚è‘Ö‚¦
+	IMU_Write1byte(REG_BANK_SEL, REG_USER_BANK_0);	// ãƒãƒ³ã‚¯ã®åˆ‡ã‚Šæ›¿ãˆ
 	HAL_Delay(100);
 
-	IMU_Write1byte(USER_CTRL, 0x10);	// I2Cƒ‚[ƒh‚ğDisable‚Éİ’è
+	IMU_Write1byte(USER_CTRL, 0x10);	// I2Cãƒ¢ãƒ¼ãƒ‰ã‚’Disableã«è¨­å®š
 	HAL_Delay(1);
-	IMU_Write1byte(PWR_MGMT_1, 0x01);	// ICM20648‚ğƒŠƒZƒbƒg
+	IMU_Write1byte(PWR_MGMT_1, 0x01);	// ICM20648ã‚’ãƒªã‚»ãƒƒãƒˆ
 	HAL_Delay(100);
 
-	IMU_Write1byte(REG_BANK_SEL, REG_USER_BANK_2); // ƒoƒ“ƒN‚ÌØ‚è‘Ö‚¦
+	IMU_Write1byte(REG_BANK_SEL, REG_USER_BANK_2); // ãƒãƒ³ã‚¯ã®åˆ‡ã‚Šæ›¿ãˆ
 	HAL_Delay(100);
 
-	// ƒWƒƒƒCƒ‚Ìİ’è
-	IMU_Write1byte(GYRO_CONFIG_1, 0x07);	// ƒWƒƒƒCƒ‚ÌƒXƒP[ƒ‹‚ğ}2000deg/s‚Éİ’è
-	HAL_Delay(1);							// ƒWƒƒƒCƒ‚Ìƒ[ƒpƒXƒtƒBƒ‹ƒ^‚ğEable‚Éİ’è
-	// ‰Á‘¬“xŒv‚Ìİ’è
-	IMU_Write1byte(ACCEL_CONFIG, 0x0d);		// ‰Á‘¬“xŒv‚ÌƒXƒP[ƒ‹‚ğ}8g‚Éİ’è
-	HAL_Delay(1);							// ‰Á‘¬“xŒv‚Ìƒ[ƒpƒXƒtƒBƒ‹ƒ^‚ğEable‚Éİ’è
+	// ã‚¸ãƒ£ã‚¤ãƒ­ã®è¨­å®š
+	IMU_Write1byte(GYRO_CONFIG_1, 0x07);	// ã‚¸ãƒ£ã‚¤ãƒ­ã®ã‚¹ã‚±ãƒ¼ãƒ«ã‚’Â±2000deg/sã«è¨­å®š
+	HAL_Delay(1);							// ã‚¸ãƒ£ã‚¤ãƒ­ã®ãƒ­ãƒ¼ãƒ‘ã‚¹ãƒ•ã‚£ãƒ«ã‚¿ã‚’Eableã«è¨­å®š
+	// åŠ é€Ÿåº¦è¨ˆã®è¨­å®š
+	IMU_Write1byte(ACCEL_CONFIG, 0x0d);		// åŠ é€Ÿåº¦è¨ˆã®ã‚¹ã‚±ãƒ¼ãƒ«ã‚’Â±8gã«è¨­å®š
+	HAL_Delay(1);							// åŠ é€Ÿåº¦è¨ˆã®ãƒ­ãƒ¼ãƒ‘ã‚¹ãƒ•ã‚£ãƒ«ã‚¿ã‚’Eableã«è¨­å®š
 
-	IMU_Write1byte(REG_BANK_SEL, REG_USER_BANK_0);	// ƒoƒ“ƒN‚ÌØ‚è‘Ö‚¦
+	IMU_Write1byte(REG_BANK_SEL, REG_USER_BANK_0);	// ãƒãƒ³ã‚¯ã®åˆ‡ã‚Šæ›¿ãˆ
 	HAL_Delay(100);
 
-	// DMA‚ÌŠJn
+	// DMAã®é–‹å§‹
 	HAL_GPIO_WritePin(SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_RESET);
 	HAL_SPI_TransmitReceive_DMA( &hspi2, &imu_address, imu_value, sizeof(imu_value)/sizeof(uint8_t) );
 }
 
 /* ---------------------------------------------------------------
-	DMA‘—óMŠ®—¹Œã‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+	DMAé€å—ä¿¡å®Œäº†å¾Œã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 --------------------------------------------------------------- */
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi)
 {
@@ -108,7 +108,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi)
 }
 
 /* ---------------------------------------------------------------
-	IMU‚ÌƒŠƒtƒ@ƒŒƒ“ƒX‚ğ•â³‚·‚éŠÖ”
+	IMUã®ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚’è£œæ­£ã™ã‚‹é–¢æ•°
 --------------------------------------------------------------- */
 void IMU_ResetReference( void )
 {
@@ -124,7 +124,7 @@ void IMU_ResetReference( void )
 }
 
 /* ---------------------------------------------------------------
-	X²‰Á‘¬“xŒv‚Ì‰Á‘¬“x‚ğæ“¾‚·‚éŠÖ”[m/s^2]
+	Xè»¸åŠ é€Ÿåº¦è¨ˆã®åŠ é€Ÿåº¦ã‚’å–å¾—ã™ã‚‹é–¢æ•°[m/s^2]
 --------------------------------------------------------------- */
 float IMU_GetAccel_X( void )
 {
@@ -132,7 +132,7 @@ float IMU_GetAccel_X( void )
 }
 
 /* ---------------------------------------------------------------
-	Z²ƒWƒƒƒCƒ‚ÌŠp‘¬“x‚ğæ“¾‚·‚éŠÖ”[rad/s]
+	Zè»¸ã‚¸ãƒ£ã‚¤ãƒ­ã®è§’é€Ÿåº¦ã‚’å–å¾—ã™ã‚‹é–¢æ•°[rad/s]
 --------------------------------------------------------------- */
 float IMU_GetGyro_Z( void )
 {

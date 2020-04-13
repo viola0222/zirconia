@@ -1,21 +1,21 @@
 
 #include "index.h"
 
-#define _ESC			0x1b	// ƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX
-#define TRX_BUFFER_SIZE 64 		// ‘—óMƒoƒbƒtƒ@ƒTƒCƒY
+#define _ESC			0x1b	// ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã‚·ãƒ¼ã‚±ãƒ³ã‚¹
+#define TRX_BUFFER_SIZE 64 		// é€å—ä¿¡ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 
 struct {
     volatile uint16_t 	head;
     volatile uint16_t	tail;
     volatile uint16_t	remain;
     volatile uint8_t	data[TRX_BUFFER_SIZE];
-} tx_buffer, rx_buffer; // FIFOƒoƒbƒtƒ@
+} tx_buffer, rx_buffer; // FIFOãƒãƒƒãƒ•ã‚¡
 
 uint8_t			tx_data;
 uint8_t			rx_data;
 
 /* ---------------------------------------------------------------
-	UART1‚Å1•¶šóM‚·‚éŠÖ”
+	UART1ã§1æ–‡å­—å—ä¿¡ã™ã‚‹é–¢æ•°
 --------------------------------------------------------------- */
 uint8_t Communication_TerminalRecv( void )
 {
@@ -25,71 +25,71 @@ uint8_t Communication_TerminalRecv( void )
 }
 
 /* ---------------------------------------------------------------
-	UART1‚Å1•¶š‘—M‚·‚éŠÖ”
+	UART1ã§1æ–‡å­—é€ä¿¡ã™ã‚‹é–¢æ•°
 --------------------------------------------------------------- */
 void Communication_TxPushData( int8_t data )
 {
-// head‚ÉV‚µ‚­’Ç‰Á‚·‚é
-// tail‚ÍŸ‚É‘—M‚³‚ê‚éƒf[ƒ^‚ğw‚·
-// ƒoƒbƒtƒ@‚É‹ó‚«‚ª–³‚¢ihead‚ªtail‚É’Ç‚¢‚Â‚¢‚½jê‡‚Í‘Ò‹@‚·‚é
+// headã«æ–°ã—ãè¿½åŠ ã™ã‚‹
+// tailã¯æ¬¡ã«é€ä¿¡ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’æŒ‡ã™
+// ãƒãƒƒãƒ•ã‚¡ã«ç©ºããŒç„¡ã„ï¼ˆheadãŒtailã«è¿½ã„ã¤ã„ãŸï¼‰å ´åˆã¯å¾…æ©Ÿã™ã‚‹
 
-	// ƒoƒbƒtƒ@“àƒf[ƒ^”‚ğƒJƒEƒ“ƒg‚µC‹ó‚«‚ª‚È‚¢ê‡‘Ò‹@‚·‚é
-	// ƒoƒbƒtƒ@ƒtƒ‹‚Å‘Ò‹@‚µ‚Ä‚¢‚é‚Æ‚«‚É‚ÍŠ„‚è‚İ‚ğ‹–‰Â‚·‚é‚½‚ß‚Éwhileƒ‹[ƒv‚É‚È‚Á‚Ä‚¢‚é
+	// ãƒãƒƒãƒ•ã‚¡å†…ãƒ‡ãƒ¼ã‚¿æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã—ï¼Œç©ºããŒãªã„å ´åˆå¾…æ©Ÿã™ã‚‹
+	// ãƒãƒƒãƒ•ã‚¡ãƒ•ãƒ«ã§å¾…æ©Ÿã—ã¦ã„ã‚‹ã¨ãã«ã¯å‰²ã‚Šè¾¼ã¿ã‚’è¨±å¯ã™ã‚‹ãŸã‚ã«whileãƒ«ãƒ¼ãƒ—ã«ãªã£ã¦ã„ã‚‹
 	while(1) {
-		// ‚±‚ÌŠÖ”‚Í‘½d‚ÉÀs‚³‚ê‚é‚Æ‚Ü‚¸‚¢‚Ì‚ÅŠ„‚è‚İ‚ğ‹Ö~‚·‚é
+		// ã“ã®é–¢æ•°ã¯å¤šé‡ã«å®Ÿè¡Œã•ã‚Œã‚‹ã¨ã¾ãšã„ã®ã§å‰²ã‚Šè¾¼ã¿ã‚’ç¦æ­¢ã™ã‚‹
 		__disable_irq();
 
-		// DMA‚ğˆê“I‚É’â~
+		// DMAã‚’ä¸€æ™‚çš„ã«åœæ­¢
 		HAL_UART_DMAStop(&huart1);
 
-		// ƒoƒbƒtƒ@‚É‹ó‚«‚ª‚ ‚ê‚Îƒ‹[ƒv‚©‚ç”²‚¯‚é
+		// ãƒãƒƒãƒ•ã‚¡ã«ç©ºããŒã‚ã‚Œã°ãƒ«ãƒ¼ãƒ—ã‹ã‚‰æŠœã‘ã‚‹
 		if( tx_buffer.remain < TRX_BUFFER_SIZE ) {
 			break;
 		} else;
 
-		// DMA“®ìÄŠJ
+		// DMAå‹•ä½œå†é–‹
 		HAL_UART_Transmit_DMA(&huart1, &tx_data, 1);
 
-		// Š„‚è‚İ‹–‰Â
+		// å‰²ã‚Šè¾¼ã¿è¨±å¯
 		__enable_irq();
 
-		// ƒoƒbƒtƒ@‚É‹ó‚«‚ª‚Å‚«‚é‚Ü‚Å‘Ò‹@i‚±‚ÌŠÔŠ„‚è‚İ‚ª”­¶‚µ‚Ä‚à‚æ‚¢j
+		// ãƒãƒƒãƒ•ã‚¡ã«ç©ºããŒã§ãã‚‹ã¾ã§å¾…æ©Ÿï¼ˆã“ã®é–“å‰²ã‚Šè¾¼ã¿ãŒç™ºç”Ÿã—ã¦ã‚‚ã‚ˆã„ï¼‰
 		while(tx_buffer.remain == TRX_BUFFER_SIZE);
 	}
-	// ‚±‚±‚Ì“_‚ÅDMAC‚Í’â~CŠ„‚è‚İ‚Í‹Ö~‚³‚ê‚Ä‚¢‚é
+	// ã“ã“ã®æ™‚ç‚¹ã§DMACã¯åœæ­¢ï¼Œå‰²ã‚Šè¾¼ã¿ã¯ç¦æ­¢ã•ã‚Œã¦ã„ã‚‹
 
-	// ‘‚«‚İƒ|ƒCƒ“ƒ^‚Éƒf[ƒ^‚ğŠi”[
+	// æ›¸ãè¾¼ã¿ãƒã‚¤ãƒ³ã‚¿ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´
 	tx_buffer.data[tx_buffer.head++] = data;
 	tx_buffer.remain++;
-	// I’[‚É—ˆ‚½‚çAæ“ª‚É–ß‚é
+	// çµ‚ç«¯ã«æ¥ãŸã‚‰ã€å…ˆé ­ã«æˆ»ã‚‹
 	if(tx_buffer.head >= TRX_BUFFER_SIZE){
 		tx_buffer.head = 0;
 	} else;
 
-	// DMA“®ìÄŠJ
+	// DMAå‹•ä½œå†é–‹
 	HAL_UART_Transmit_DMA(&huart1, &tx_data, 1);
 
-	// Š„‚è‚İ‹–‰Â
+	// å‰²ã‚Šè¾¼ã¿è¨±å¯
 	__enable_irq();
 }
 
 void Communication_TxPopData( void )
 {
-	// ƒf[ƒ^‚ª‚È‚¢ê‡
+	// ãƒ‡ãƒ¼ã‚¿ãŒãªã„å ´åˆ
 	if( tx_buffer.remain == 0 ) {
-		// DMA‚ğ’â~
+		// DMAã‚’åœæ­¢
 		HAL_UART_DMAStop(&huart1);
 	} else {
-		// “Ç‚İo‚µƒf[ƒ^‚Ìæ‚èo‚µ
+		// èª­ã¿å‡ºã—ãƒ‡ãƒ¼ã‚¿ã®å–ã‚Šå‡ºã—
 		tx_data = tx_buffer.data[tx_buffer.tail++];
 		tx_buffer.remain--;
 
-		// I’[‚É—ˆ‚½‚çæ“ª‚É–ß‚é
+		// çµ‚ç«¯ã«æ¥ãŸã‚‰å…ˆé ­ã«æˆ»ã‚‹
 		if(tx_buffer.tail >= TRX_BUFFER_SIZE){
 			tx_buffer.tail = 0;
 		} else;
 
-		// DMA“®ìÄŠJ
+		// DMAå‹•ä½œå†é–‹
 		HAL_UART_Transmit_DMA(&huart1, &tx_data, 1);
 	}
 }
@@ -102,7 +102,7 @@ void HAL_UART_TxCpltCallback( UART_HandleTypeDef *huart )
 }
 
 /* ---------------------------------------------------------------
-	printf‚Æscanf‚ğg—p‚·‚é‚½‚ß‚Ìİ’è
+	printfã¨scanfã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®è¨­å®š
 --------------------------------------------------------------- */
 void Communication_Initialize( void )
 {
@@ -112,7 +112,7 @@ void Communication_Initialize( void )
 }
 
 /* ---------------------------------------------------------------
-	printf‚ğg—p‚·‚é‚½‚ß‚Ìİ’è
+	printfã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®è¨­å®š
 --------------------------------------------------------------- */
 #ifdef __GNUC__
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
@@ -126,7 +126,7 @@ PUTCHAR_PROTOTYPE
 }
 
 /* ---------------------------------------------------------------
-	scanf‚ğg—p‚·‚é‚½‚ß‚Ìİ’è
+	scanfã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®è¨­å®š
 --------------------------------------------------------------- */
 #ifdef __GNUC__
 #define GETCHAR_PROTOTYPE int __io_getchar(void)

@@ -1,18 +1,18 @@
 
 #include "index.h"
 
-#define PWMFREQ			(100000)	// ���[�^�̓�����g��[Hz]
-#define MOT_DUTY_MIN	(30)		// ���[�^�̍Œ�Duty
-#define MOT_DUTY_MAX	(950)		// ���[�^�̍ő�Duty
+#define PWMFREQ			(100000)	// モータの動作周波数[Hz]
+#define MOT_DUTY_MIN	(30)		// モータの最低Duty
+#define MOT_DUTY_MAX	(950)		// モータの最大Duty
 
-// ���[�^�̌����ݒ�
+// モータの向き設定
 #define MOT_SET_COMPARE_L_FORWARD(x)	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, x)
 #define MOT_SET_COMPARE_L_REVERSE(x)	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, x)
 #define MOT_SET_COMPARE_R_FORWARD(x)	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_4, x)
 #define MOT_SET_COMPARE_R_REVERSE(x)	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, x)
 
 /* ---------------------------------------------------------------
-	���[�^�p�̃^�C�}�[���J�n����֐�
+	モータ用のタイマーを開始する関数
 --------------------------------------------------------------- */
 void Motor_Initialize( void )
 {
@@ -23,7 +23,7 @@ void Motor_Initialize( void )
 }
 
 /* ---------------------------------------------------------------
-	���[�^�̂̉�]���~�߂�֐�
+	モータのの回転を止める関数
 --------------------------------------------------------------- */
 void Motor_StopPWM( void )
 {
@@ -34,7 +34,7 @@ void Motor_StopPWM( void )
 }
 
 /* ---------------------------------------------------------------
-	�����[�^���w���Duty�i0�`1000�j�ŉ�]������֐�
+	左モータを指定のDuty（0～1000）で回転させる関数
 --------------------------------------------------------------- */
 void Motor_SetDuty_Left( int16_t duty_l )
 {
@@ -61,7 +61,7 @@ void Motor_SetDuty_Left( int16_t duty_l )
 }
 
 /* ---------------------------------------------------------------
-	�E���[�^���w���Duty�i0�`1000�j�ŉ�]������֐�
+	右モータを指定のDuty（0～1000）で回転させる関数
 --------------------------------------------------------------- */
 void Motor_SetDuty_Right( int16_t duty_r )
 {

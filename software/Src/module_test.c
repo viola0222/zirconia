@@ -2,7 +2,7 @@
 #include "index.h"
 
 /* ---------------------------------------------------------------
-	Še‹@”\‚Ì“®ìŠm”F—pŠÖ”
+	å„æ©Ÿèƒ½ã®å‹•ä½œç¢ºèªç”¨é–¢æ•°
 --------------------------------------------------------------- */
 void module_test( void )
 {
@@ -11,36 +11,36 @@ void module_test( void )
 	int16_t		duty_l	  = 0;
 	int16_t		duty_r	  = 0;
 
-	// ƒGƒ“ƒR[ƒ_‚ÌƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg
+	// ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€ã®ã‚«ã‚¦ãƒ³ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆ
 	Encoder_ResetCount_Left();
 	Encoder_ResetCount_Right();
 
 	while( 1 ) {
-		// Š„‚è‚İˆ——¦‚ğ•\¦
+		// å‰²ã‚Šè¾¼ã¿å‡¦ç†ç‡ã‚’è¡¨ç¤º
 		printf("<Boot Time> %8.3f[s]\r\n", Interrupt_GetBootTime()); line++;
 		printf("<Interrupt> %3.1f[%%] (MAX : %3.1f[%%])\r\n",
 				(float)Interrupt_GetDuty()/10.f, (float)Interrupt_GetDuty_Max()/10.f); line++;
 
-		// ƒ‚[ƒ^‚ğw’è‚ÌDuty‚ğ•\¦
+		// ãƒ¢ãƒ¼ã‚¿ã‚’æŒ‡å®šã®Dutyã‚’è¡¨ç¤º
 		printf("<PWM Duty> L: %4.1f[%%],  R: %4.1f[%%]\r\n",
 				(float)duty_l/10.f, (float)duty_r/10.f); line++;
 
-		// ƒGƒ“ƒR[ƒ_‚ÌŠp“x•\¦
+		// ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€ã®è§’åº¦è¡¨ç¤º
 		printf("<Encoder> L: %5.1f[deg],  R: %5.1f[deg]\r\n",
 				RAD2DEG(Encoder_GetAngle_Left()), RAD2DEG(Encoder_GetAngle_Right())); line++;
 
-		// ƒoƒbƒeƒŠ[“dˆ³‚Ì•\¦
+		// ãƒãƒƒãƒ†ãƒªãƒ¼é›»åœ§ã®è¡¨ç¤º
 		printf("<Battery> %3.2f[V]\r\n", Battery_GetVoltage()); line++;
 
-		// •ÇƒZƒ“ƒT‚ÌAD’l•\¦
+		// å£ã‚»ãƒ³ã‚µã®ADå€¤è¡¨ç¤º
 		printf("<IR Sensor> FL: %4d, SL: %4d SR: %4d, FR: %4d\r\n",
 				Sensor_GetValue(3), Sensor_GetValue(2), Sensor_GetValue(1), Sensor_GetValue(0)); line++;
 
-		// IMUi‰Á‘¬“xŒv‚ÆƒWƒƒƒCƒj‚ÌŒv‘ª’l•\¦
+		// IMUï¼ˆåŠ é€Ÿåº¦è¨ˆã¨ã‚¸ãƒ£ã‚¤ãƒ­ï¼‰ã®è¨ˆæ¸¬å€¤è¡¨ç¤º
 		printf("<IMU> Accel_X: %5.3f[m/s^2], Gyro_Z: %6.3f[rad/s]\r\n",
 				IMU_GetAccel_X(), IMU_GetGyro_Z()); line++;
 
-		// ƒ‚[ƒ^‚ÌDuty“ü—Í
+		// ãƒ¢ãƒ¼ã‚¿ã®Dutyå…¥åŠ›
 		key = Communication_TerminalRecv();
 		switch( key ) {
 			case '1': duty_l += 1; 	 break;
@@ -65,7 +65,7 @@ void module_test( void )
 
 		fflush(stdout);
 		HAL_Delay(500);
-		// ‰æ–Ê‚ÌƒNƒŠƒA
+		// ç”»é¢ã®ã‚¯ãƒªã‚¢
 		printf("%c[0J", 0x1b);
 		printf("%c[%dA", 0x1b, line);
 	}

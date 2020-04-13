@@ -123,16 +123,16 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  	LED_ALL_ON();				// LED‘S“_“”
-  	Communication_Initialize();	// ƒ^[ƒ~ƒiƒ‹‚Æ‚Ì’ÊMÝ’è
-  	Motor_Initialize();			// ƒ‚[ƒ^—pƒ^ƒCƒ}[Ý’è
-  	Encoder_Initialize();		// ƒGƒ“ƒR[ƒ_—pƒ^ƒCƒ}[Ý’è
-  	IMU_Initialize();			// IMU—p’ÊM‚¨‚æ‚ÑICM20648‚Ì‰ŠúÝ’è
-  	Sensor_Initialize();		// •ÇƒZƒ“ƒT—pAD•ÏŠ·‚¨‚æ‚Ñƒ^ƒCƒ}[Ý’è
-  	Interrupt_Initialize();		// ƒƒCƒ“Š„‚èž‚Ýˆ—‚Ì‰ŠúÝ’è
-//  	Battery_LimiterVoltage();	// ƒoƒbƒeƒŠ[‚Ì“dˆ³ŠÇ—
+  	LED_ALL_ON();				// LEDå…¨ç‚¹ç¯
+  	Communication_Initialize();	// ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã¨ã®é€šä¿¡è¨­å®š
+  	Motor_Initialize();			// ãƒ¢ãƒ¼ã‚¿ç”¨ã‚¿ã‚¤ãƒžãƒ¼è¨­å®š
+  	Encoder_Initialize();		// ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€ç”¨ã‚¿ã‚¤ãƒžãƒ¼è¨­å®š
+  	IMU_Initialize();			// IMUç”¨é€šä¿¡ãŠã‚ˆã³ICM20648ã®åˆæœŸè¨­å®š
+  	Sensor_Initialize();		// å£ã‚»ãƒ³ã‚µç”¨ADå¤‰æ›ãŠã‚ˆã³ã‚¿ã‚¤ãƒžãƒ¼è¨­å®š
+  	Interrupt_Initialize();		// ãƒ¡ã‚¤ãƒ³å‰²ã‚Šè¾¼ã¿å‡¦ç†ã®åˆæœŸè¨­å®š
+//  	Battery_LimiterVoltage();	// ãƒãƒƒãƒ†ãƒªãƒ¼ã®é›»åœ§ç®¡ç†
 
-  	module_test();				// Še‹@”\‚Ì“®ìŠm”Fi“®ìŠm”F‚ªŠ®—¹‚µ‚½‚çƒRƒƒ“ƒgƒAƒEƒg‚µ‚Ä‰º‚³‚¢j
+  	module_test();				// å„æ©Ÿèƒ½ã®å‹•ä½œç¢ºèªï¼ˆå‹•ä½œç¢ºèªãŒå®Œäº†ã—ãŸã‚‰ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã—ã¦ä¸‹ã•ã„ï¼‰
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -142,7 +142,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  // ‚±‚±‚ÉƒƒCƒ“ƒ‹[ƒv‚Ìˆ—‚ð‹Lq‚·‚é
+	  // ã“ã“ã«ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã®å‡¦ç†ã‚’è¨˜è¿°ã™ã‚‹
 	  Sensor_DebugPrintf();
   }
   /* USER CODE END 3 */
