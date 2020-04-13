@@ -1,7 +1,0 @@
-communication.c:20:9:Communication_TerminalRecv	16	static
-communication.c:30:6:Communication_TxPushData	24	static
-communication.c:76:6:Communication_TxPopData	0	static
-communication.c:97:6:HAL_UART_TxCpltCallback	0	static
-communication.c:107:6:Communication_Initialize	8	static
-communication.c:122:1:__io_putchar	8	static
-communication.c:136:1:__io_getchar	8	static

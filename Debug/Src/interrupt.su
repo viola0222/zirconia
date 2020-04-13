@@ -1,7 +1,0 @@
-interrupt.c:17:6:Interrupt_Main	0	static
-interrupt.c:26:6:Interrupt_Initialize	0	static
-interrupt.c:34:6:Interrupt_PreProcess	24	static
-interrupt.c:48:6:Interrupt_PostProcess	0	static
-interrupt.c:57:10:Interrupt_GetDuty	0	static
-interrupt.c:65:10:Interrupt_GetDuty_Max	0	static
-interrupt.c:73:7:Interrupt_GetBootTime	0	static
