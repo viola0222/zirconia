@@ -7,12 +7,13 @@ ___
 詳しい紹介は[製作者のブログ](http://matsui-mouse.blogspot.com/2018/07/zirconia.html)にお任せするとして、私はそのサンプルコードを書いています。  
 ハードウェアの設計データは[ここ](http://matsui-mouse.blogspot.com/2019/04/zirconia.html)にありますので、これからマイクロマウスを製作しようと考えている人たちの助けになれば幸甚です。  
   
-<img src="attach:zilconia.jpg">
+![zilconia](https://bitbucket.org/kohiro/zirconia_sample/src/master/zilconia.jpg, 'zilconia')
 
 ## 機能
 ___
+ 
+各種インターフェースやセンサーの動作確認  
 
-各種インターフェースやセンサーの動作確認
 - マイコン各種機能(STM32F413)
 - LED
 - プッシュスイッチ
@@ -33,7 +34,7 @@ ___
 
 - フラッシュライター
 	- STM32CubeProgrammer
-	- Version : 1.4.0
+	- Version : 2.3.0
  	- URL : https://www.st.com/ja/development-tools/stm32cubeprog.html
 
 ※ Versionにはサンプルプログラムを開発したときのものを記載してあります。  
