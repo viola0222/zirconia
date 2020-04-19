@@ -1,8 +1,0 @@
-ir_sensor.c:44:6:TIM1_CC2_Callback	0	static
-ir_sensor.c:66:6:HAL_ADC_ConvCpltCallback	0	static
-ir_sensor.c:112:6:Sensor_StartADC	8	static
-ir_sensor.c:95:6:Sensor_Initialize	16	static
-ir_sensor.c:125:6:Sensor_StopADC	8	static
-ir_sensor.c:136:10:Sensor_GetBatteryValue	0	static
-ir_sensor.c:144:9:Sensor_GetValue	0	static
-ir_sensor.c:156:6:Sensor_DebugPrintf	64	static

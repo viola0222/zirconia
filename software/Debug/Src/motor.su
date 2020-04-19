@@ -1,4 +1,0 @@
-motor.c:18:6:Motor_Initialize	8	static
-motor.c:29:6:Motor_StopPWM	0	static
-motor.c:40:6:Motor_SetDuty_Left	24	static
-motor.c:67:6:Motor_SetDuty_Right	24	static

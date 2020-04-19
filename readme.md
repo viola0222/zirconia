@@ -6,18 +6,20 @@ ___
    
 詳しい紹介は[製作者のブログ](http://matsui-mouse.blogspot.com/2018/07/zirconia.html)にお任せするとして、私はそのサンプルコードを書いています。  
 ハードウェアの設計データは[ここ](http://matsui-mouse.blogspot.com/2019/04/zirconia.html)にありますので、これからマイクロマウスを製作しようと考えている人たちの助けになれば幸甚です。  
+  
+<img src="attach:zilconia.jpg">
 
 ## 機能
 ___
 
 各種インターフェースやセンサーの動作確認
- - マイコン各種機能(STM32F413)
- - LED
- - プッシュスイッチ
- - モータ
- - エンコーダ(MA300)
- - IMU(ICM20648)
- - IRセンサ
+- マイコン各種機能(STM32F413)
+- LED
+- プッシュスイッチ
+- モータ
+- エンコーダ(MA300)
+- IMU(ICM20648)
+- IRセンサ
   
 機能の詳細についてはソフトマニュアルとサンプルコードのindex.hを参照して下さい。
  
@@ -25,14 +27,9 @@ ___
 ___
  
 - 統合開発環境
-    - Atollic TrueSTUDIO for STM32
-    - Version :  9.2.0
-    - URL : https://www.st.com/ja/development-tools/truestudio.html
-
-- コードジェネレータ
-	- STM32CubeMX
-	- Version : 5.0.1
-	- URL : https://www.st.com/ja/development-tools/stm32cubemx.html
+    - STM32CubeIDE
+    - Version :  1.3.0
+    - URL : https://www.st.com/ja/development-tools/stm32cubeide.html
 
 - フラッシュライター
 	- STM32CubeProgrammer
