@@ -1,5 +1,0 @@
-encoder.c:13:6:Encoder_Initialize	8	static
-encoder.c:22:6:Encoder_ResetCount_Left	4	static
-encoder.c:30:6:Encoder_ResetCount_Right	4	static
-encoder.c:38:7:Encoder_GetAngle_Left	4	static
-encoder.c:46:7:Encoder_GetAngle_Right	4	static

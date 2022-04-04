@@ -67,5 +67,6 @@ __本サンプルコードではマイクロマウスとして迷路を完走さ
 ## 作者
 ___
  
-[コヒロ@Savant013](https://twitter.com/Savant013)
+[コヒロ@Savant013](https://twitter.com/Savant013)  
+zilconia_sample is licensed under the Apache License, Version2.0
  
