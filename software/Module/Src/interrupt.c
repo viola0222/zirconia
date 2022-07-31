@@ -19,7 +19,7 @@
 #define PCLK			(HAL_RCC_GetPCLK2Freq())
 #define TIMER_COUNT		(__HAL_TIM_GET_COUNTER(&htim5))
 #define TIMER_LOAD		(__HAL_TIM_GET_AUTORELOAD(&htim5))
-#define TIMER_PSC		((&htim5)->Instance->PSC)
+#define TIMER_PSC		((&htim5)->Instance->PSC + 1)
 
 static uint32_t		interrupt_count_now;
 static uint32_t		interrupt_duty;
@@ -63,7 +63,8 @@ void Interrupt_PreProcess( void )
 --------------------------------------------------------------- */
 void Interrupt_PostProcess( void )
 {
-	interrupt_duty = (TIMER_COUNT - interrupt_count_now) * 1000 / TIMER_LOAD;
+	interrupt_duty = MIN(TIMER_COUNT - interrupt_count_now,
+						 TIMER_COUNT - interrupt_count_now + TIMER_LOAD) * 1000 / TIMER_LOAD;
 	interrupt_duty_max = MAX( interrupt_duty_max, interrupt_duty );
 }
 
