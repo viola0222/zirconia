@@ -17,7 +17,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
@@ -101,17 +100,17 @@ int main(void)
   MX_TIM5_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  	LED_ALL_ON();				// LED全点灯
-  	Communicate_Initialize();	// ターミナルとの通信初期設定
-  	Motor_Initialize();			// モータ用タイマ初期設定
-  	Encoder_Initialize();		// エンコーダー用タイマ初期設定
-  	IMU_Initialize();			// IMU用通信およびICM20648の初期設定
-  	Sensor_Initialize();		// 壁センサ用AD変換およびタイマ初期設定
-  	Interrupt_Initialize();		// メイン割り込み処理の初期設定
+	LED_ALL_ON();				// LED全点灯
+	Communicate_Initialize();	// ターミナルとの通信初期設定
+	Motor_Initialize();			// モータ用タイマ初期設定
+	Encoder_Initialize();		// エンコーダー用タイマ初期設定
+	IMU_Initialize();			// IMU用通信およびICM20648の初期設定
+	Sensor_Initialize();		// 壁センサ用AD変換およびタイマ初期設定
+	Interrupt_Initialize();		// メイン割り込み処理の初期設定
 
-  	Battery_LimiterVoltage();	// バッテリの電圧管理
-  	Sensor_StartADC();			// 壁センサ用AD変換の開始
-  	module_test();				// 各機能の動作確認（動作確認が完了したらコメントアウトして下さい
+	Battery_LimiterVoltage();	// バッテリの電圧管理
+	Sensor_StartADC();			// 壁センサ用AD変換の開始
+	module_test();				// 各機能の動作確認（動作確認が完了したらコメントアウトして下さい）
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -121,8 +120,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  // ここにメインループの処理を記述する
-
+	// ここにメインループの処理を記述する
 
   }
   /* USER CODE END 3 */
@@ -137,11 +135,13 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage 
+  /** Configure the main internal regulator output voltage
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-  /** Initializes the CPU, AHB and APB busses clocks 
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -157,7 +157,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -197,12 +198,10 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
