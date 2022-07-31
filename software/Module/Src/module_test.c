@@ -22,10 +22,14 @@
 --------------------------------------------------------------- */
 void module_test( void )
 {
-	uint16_t	line 	  = 0;
+	uint16_t	line 	   = 0;
 	uint8_t		key;
-	int16_t		duty_l	  = 0;
-	int16_t		duty_r	  = 0;
+
+	int16_t		duty_l	   = 0;
+	int16_t		duty_r	   = 0;
+
+	uint8_t* 	flash_adress;
+	uint8_t		boot_count = 0;
 
 	// DMAを一時的に停止
 	HAL_DMA_Abort(huart1.hdmarx);
@@ -34,7 +38,23 @@ void module_test( void )
 	Encoder_ResetCount_Left();
 	Encoder_ResetCount_Right();
 
+	// 起動回数の読込み
+	flash_adress = Flash_Load();
+	boot_count = (*flash_adress) + 1;
+
+	// 起動回数の書込み
+	(*flash_adress) = boot_count;
+	if( !Flash_Save() ) {
+		while( 1 ) {
+			LED_ALL_TOGGLE();
+			HAL_Delay(200);
+		}
+	} else;
+
 	while( 1 ) {
+		// 起動回数の表示
+		printf("<Boot Count> %5d\r\n", boot_count); line++;
+
 		// 割り込み処理率を表示
 		printf("<Boot Time> %8.3f[s]\r\n", Interrupt_GetBootTime()); line++;
 		printf("<Interrupt> %3.1f[%%] (MAX : %3.1f[%%])\r\n",
