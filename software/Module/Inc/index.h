@@ -68,26 +68,26 @@
 
 /* UART通信関数群(communicate.c) */
 /* 自動生成されたsyscalls.cをSrcファイルに移し、stdio.hをインクルードすることでprintfやscanfも使用可能 */
-void 		Communicate_TerminalSend( uint8_t );		// 1文字送信
+void 		Communicate_TerminalSend( uint8_t );	// 1文字送信
 uint8_t 	Communicate_TerminalRecv( void );		// 1文字受信
 void 		Communicate_Initialize( void );			// printfとscanfを使用するための設定
-void 		Communicate_ClearScreen( void );			// 画面クリア&カーソル初期化
+void 		Communicate_ClearScreen( void );		// 画面クリア&カーソル初期化
 
 /* モータ関数群(motor.c) */
-void 		Motor_Initialize( void );					// モータ駆動用タイマーの開始
+void 		Motor_Initialize( void );				// モータ駆動用タイマーの開始
 void 		Motor_StopPWM( void );					// モータを停止
 void 		Motor_SetDuty_Left( int16_t );			// 左モータを指定したDutyで回転させる[0-1000]
 void 		Motor_SetDuty_Right( int16_t );			// 右モータを指定したDutyで回転させる[0-1000]
 
 /* エンコーダ関数群(encoder.c) */
 void 		Encoder_Initialize( void );				// エンコーダ用タイマーの開始
-void 		Encoder_ResetCount_Left( void );			// 左エンコーダのカウントを初期値にする
+void 		Encoder_ResetCount_Left( void );		// 左エンコーダのカウントを初期値にする
 void 		Encoder_ResetCount_Right( void );		// 右エンコーダのカウントを初期値にする
 float 		Encoder_GetAngle_Left( void );			// 左タイヤの角度を取得する[rad]
 float 		Encoder_GetAngle_Right( void );			// 右タイヤの角度を取得する[rad]
 
 /* 慣性センサ関数群(imu.c) */
-uint8_t		IMU_CheckWHOAMI( void );					// 慣性センサの動作確認関数(0xe0が返ってくれば正常)
+uint8_t		IMU_CheckWHOAMI( void );				// 慣性センサの動作確認関数(0xe0が返ってくれば正常)
 void		IMU_Initialize( void );					// 慣性センサの初期設定
 void 		IMU_ResetReference( void );				// 慣性センサのリファレンスを補正する
 float 		IMU_GetAccel_X( void );					// X軸加速度計の加速度を取得する[m/s^2]
@@ -95,11 +95,11 @@ float 		IMU_GetGyro_Z( void );					// Z軸ジャイロの角速度を取得す�
 
 /* 赤外センサ関数群(ir_sensor.c) */
 void 		Sensor_Initialize( void );				// AD変換の初期設定
-void 		Sensor_StartADC( void );					// AD変換を開始する
+void 		Sensor_StartADC( void );				// AD変換を開始する
 void 		Sensor_StopADC( void );					// AD変換を停止する
 uint16_t 	Sensor_GetBatteryValue( void );			// 電源電圧のAD値を取得する
 int16_t 	Sensor_GetValue( uint8_t );				// 赤外センサのLEDオンオフ差分値を取得する
-														// 0:前右、1:横右、2:横左、3:前左
+													// 0:前右、1:横右、2:横左、3:前左
 /* バッテリー関数群(battery.c) */
 float 		Battery_GetVoltage( void );				// バッテリの電圧を取得する[V]
 void 		Battery_LimiterVoltage( void );			// バッテリの電圧が3.2V以下になると起動しないように制限する
@@ -112,6 +112,6 @@ uint16_t 	Interrupt_GetDuty_Max( void );			// 割り込み処理内の最大計�
 float		Interrupt_GetBootTime( void );			// マイコンが起動してから経過した時間を取得する[s]
 
 /* モジュールテスト関数群(module_test.c) */
-void 		module_test( void );						// 全モジュールの動作確認用テスト関数
+void 		module_test( void );					// 全モジュールの動作確認用テスト関数
 
 #endif /* INC_INDEX_H_ */
