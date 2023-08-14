@@ -80,7 +80,6 @@ void Sensor_Initialize( void )
 	__HAL_TIM_CLEAR_FLAG(&htim1, TIM_FLAG_UPDATE);
 
 	Sensor_TurnOnLED();
-//	HAL_DMA_RegisterCallback (htim1.hdma[TIM_DMA_ID_CC2], HAL_DMA_XFER_CPLT_CB_ID, TIM1_CC2_Callback);
 	HAL_DMA_Start_IT(htim1.hdma[TIM_DMA_ID_CC1], (uint32_t)led_on_pattern,  (uint32_t)(&(GPIOA->BSRR)), NUM_ADC);
 	HAL_DMA_Start_IT(htim1.hdma[TIM_DMA_ID_CC2], (uint32_t)led_off_pattern, (uint32_t)(&(GPIOA->BSRR)), NUM_ADC);
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_value, NUM_ADC);
@@ -138,11 +137,6 @@ void Sensor_DebugPrintf( void )
 			GET_ADC_DATA(LED_SL_ON) - GET_ADC_DATA(LED_SL_OFF), GET_ADC_DATA(LED_SL_ON), GET_ADC_DATA(LED_SL_OFF),
 			GET_ADC_DATA(LED_SR_ON) - GET_ADC_DATA(LED_SR_OFF), GET_ADC_DATA(LED_SR_ON), GET_ADC_DATA(LED_SR_OFF),
 			GET_ADC_DATA(LED_FR_ON) - GET_ADC_DATA(LED_FR_OFF), GET_ADC_DATA(LED_FR_ON), GET_ADC_DATA(LED_FR_OFF) );
-	/*
-	printf("%5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d\r\n",
-			adc_value[0], adc_value[1], adc_value[2], adc_value[3], adc_value[4], adc_value[5],
-			adc_value[6], adc_value[7], adc_value[8], adc_value[9], adc_value[10], adc_value[11]);
-	*/
 }
 
 

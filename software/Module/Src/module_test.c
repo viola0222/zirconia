@@ -73,7 +73,7 @@ void module_test( void )
 
 		// 壁センサのAD値表示
 		printf("<IR Sensor> FL: %4d, SL: %4d SR: %4d, FR: %4d\r\n",
-				Sensor_GetValue(3), Sensor_GetValue(2), Sensor_GetValue(1), Sensor_GetValue(0)); line++;
+				Sensor_GetValue(3), Sensor_GetValue(2), Sensor_GetValue(0), Sensor_GetValue(1)); line++;
 
 		// IMU（加速度計とジャイロ）の計測値表示
 		printf("<IMU> Accel_X: %5.3f[m/s^2], Gyro_Z: %6.3f[rad/s]\r\n",
