@@ -54,7 +54,7 @@ void Motor_StopPWM( void )
 --------------------------------------------------------------- */
 void Motor_SetDuty_Left( int16_t duty_l )
 {
-	uint32_t	pulse_l;
+	volatile uint32_t	pulse_l;
 
 	if( ABS(duty_l) > MOT_DUTY_MAX ) {
 		pulse_l = (uint32_t)(PCLK / PWMFREQ * MOT_DUTY_MAX / 1000) - 1;
@@ -81,7 +81,7 @@ void Motor_SetDuty_Left( int16_t duty_l )
 --------------------------------------------------------------- */
 void Motor_SetDuty_Right( int16_t duty_r )
 {
-	uint32_t	pulse_r;
+	volatile uint32_t	pulse_r;
 
 	if( ABS(duty_r) > MOT_DUTY_MAX ) {
 		pulse_r = (uint32_t)(PCLK / PWMFREQ * MOT_DUTY_MAX / 1000) - 1;

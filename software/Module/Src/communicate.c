@@ -24,11 +24,11 @@ struct {
     volatile uint16_t 	head;
     volatile uint16_t	tail;
     volatile uint16_t	remain;
-    uint8_t	data[TRX_BUFFER_SIZE];
+    volatile uint8_t	data[TRX_BUFFER_SIZE];
 } tx_buffer, rx_buffer; // FIFOバッファ
 
-uint8_t			tx_data;
-uint8_t			rx_data;
+volatile uint8_t		tx_data;
+volatile uint8_t		rx_data;
 
 /* ---------------------------------------------------------------
 	UART1で1文字受信する関数
@@ -73,7 +73,7 @@ uint8_t Communicate_RxPopData( void )
 
 		// データを受信するまで待機
 		while( rx_buffer.remain == 0 ) {
-			HAL_UART_Receive_DMA( &huart1, &rx_data, 1 );
+			HAL_UART_Receive_DMA( &huart1, (uint8_t*)(&rx_data), 1 );
 		}
 	} else;
 
@@ -116,7 +116,7 @@ void Communicate_TxPushData( int8_t data )
 		} else;
 
 		// DMA動作再開
-		HAL_UART_Transmit_DMA(&huart1, &tx_data, 1);
+		HAL_UART_Transmit_DMA(&huart1, (uint8_t*)(&tx_data), 1);
 
 		// 割り込み許可
 		__enable_irq();
@@ -135,7 +135,7 @@ void Communicate_TxPushData( int8_t data )
 	} else;
 
 	// DMA動作再開
-	HAL_UART_Transmit_DMA(&huart1, &tx_data, 1);
+	HAL_UART_Transmit_DMA(&huart1, (uint8_t*)(&tx_data), 1);
 
 	// 割り込み許可
 	__enable_irq();
@@ -158,7 +158,7 @@ void Communicate_TxPopData( void )
 		} else;
 
 		// DMA動作再開
-		HAL_UART_Transmit_DMA(&huart1, &tx_data, 1);
+		HAL_UART_Transmit_DMA(&huart1, (uint8_t*)(&tx_data), 1);
 	}
 }
 

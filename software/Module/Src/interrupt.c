@@ -21,10 +21,10 @@
 #define TIMER_LOAD		(__HAL_TIM_GET_AUTORELOAD(&htim5))
 #define TIMER_PSC		((&htim5)->Instance->PSC + 1)
 
-static uint32_t		interrupt_count_now;
-static uint32_t		interrupt_duty;
-static uint32_t		interrupt_duty_max = 0;
-static float		boot_time = 0.f;
+volatile static uint32_t	interrupt_count_now;
+volatile static uint32_t	interrupt_duty;
+volatile static uint32_t	interrupt_duty_max = 0;
+volatile static float		boot_time = 0.f;
 
 
 /* ---------------------------------------------------------------
@@ -49,8 +49,8 @@ void Interrupt_Initialize( void )
 --------------------------------------------------------------- */
 void Interrupt_PreProcess( void )
 {
-	static uint32_t		interrupt_count_old = 0;
-	static uint64_t		boot_time_count = 0;
+	volatile static uint32_t	interrupt_count_old = 0;
+	volatile static uint64_t	boot_time_count = 0;
 
 	interrupt_count_now = TIMER_COUNT;
 	boot_time_count += (uint16_t)(interrupt_count_now - interrupt_count_old);

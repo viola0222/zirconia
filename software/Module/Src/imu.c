@@ -24,7 +24,7 @@
 #define GYRO_Z_SENSITIVITY	(16.4f)
 
 // 加速度計関連マクロ
-#define ACCEL_X_SIGN		(-1.f)		// 加速度計の出力の符号（自分の座標系に合った方向に、1.0fか－1.0fを掛けて修正する）
+#define ACCEL_X_SIGN		(1.f)		// 加速度計の出力の符号（自分の座標系に合った方向に、1.0fか－1.0fを掛けて修正する）
 #define ACCEL_X_SENSITIVITY	(4096.f)
 
 // ローカル関数宣言
@@ -32,22 +32,14 @@ void 	IMU_Write1byte( uint8_t , uint8_t );
 uint8_t IMU_Read1byte( uint8_t );
 
 // グローバル変数宣言
-static uint8_t  imu_address = ACCEL_XOUT_H | 0x80;
-static uint8_t	imu_value[13];			// value[0]はダミーデータ
+volatile static uint8_t  imu_address = ACCEL_XOUT_H | 0x80;
+volatile static uint8_t	imu_value[13];			// value[0]はダミーデータ
 
-static int16_t	accel_x_value;			// X軸加速度計の生データ
-static int16_t	accel_x_reference;		// X軸加速度計のリファレンス
-static int16_t	accel_y_value;			// Y軸加速度計の生データ
-static int16_t	accel_y_reference;		// Y軸加速度計のリファレンス
-static int16_t	accel_z_value;			// Z軸加速度計の生データ
-static int16_t	accel_z_reference;		// Z軸加速度計のリファレンス
+volatile static int16_t	accel_x_value;			// X軸加速度計の生データ
+volatile static int16_t	accel_x_reference;		// X軸加速度計のリファレンス
 
-static int16_t	gyro_x_value;			// X軸ジャイロの生データ
-static int16_t	gyro_x_reference;		// X軸ジャイロのリファレンス
-static int16_t	gyro_y_value;			// Y軸ジャイロの生データ
-static int16_t	gyro_y_reference;		// Y軸ジャイロのリファレンス
-static int16_t	gyro_z_value;			// Z軸ジャイロの生データ
-static int16_t	gyro_z_reference;		// Z軸ジャイロのリファレンス
+volatile static int16_t	gyro_z_value;			// Z軸ジャイロの生データ
+volatile static int16_t	gyro_z_reference;		// Z軸ジャイロのリファレンス
 
 /* ---------------------------------------------------------------
 	ICM20648に1byte書き込む関数
@@ -115,7 +107,7 @@ void IMU_Initialize( void )
 
 	// DMAの開始
 	HAL_GPIO_WritePin(SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive_DMA( &hspi2, &imu_address, imu_value, sizeof(imu_value)/sizeof(uint8_t) );
+	HAL_SPI_TransmitReceive_DMA( &hspi2, (uint8_t*)(&imu_address), (uint8_t*)imu_value, sizeof(imu_value)/sizeof(uint8_t) );
 }
 
 /* ---------------------------------------------------------------
@@ -125,15 +117,11 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi)
 {
 	HAL_GPIO_WritePin( SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_SET );
 
-	accel_x_value = ( ( (int16_t)imu_value[ 1]<<8 ) | ( (int16_t)imu_value[ 2]&0x00ff ) );
-	accel_y_value = ( ( (int16_t)imu_value[ 3]<<8 ) | ( (int16_t)imu_value[ 4]&0x00ff ) );
-	accel_z_value = ( ( (int16_t)imu_value[ 5]<<8 ) | ( (int16_t)imu_value[ 6]&0x00ff ) );
-	gyro_x_value =  ( ( (int16_t)imu_value[ 7]<<8 ) | ( (int16_t)imu_value[ 8]&0x00ff ) );
-	gyro_y_value =  ( ( (int16_t)imu_value[ 9]<<8 ) | ( (int16_t)imu_value[10]&0x00ff ) );
+	accel_x_value = ( ( (int16_t)imu_value[ 3]<<8 ) | ( (int16_t)imu_value[ 4]&0x00ff ) );
 	gyro_z_value =  ( ( (int16_t)imu_value[11]<<8 ) | ( (int16_t)imu_value[12]&0x00ff ) );
 
 	HAL_GPIO_WritePin( SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_RESET );
-	HAL_SPI_TransmitReceive_DMA( &hspi2, &imu_address, imu_value, sizeof(imu_value)/sizeof(uint8_t) );
+	HAL_SPI_TransmitReceive_DMA( &hspi2, (uint8_t*)(&imu_address), (uint8_t*)imu_value, sizeof(imu_value)/sizeof(uint8_t) );
 }
 
 /* ---------------------------------------------------------------
@@ -146,17 +134,9 @@ void IMU_ResetReference( void )
 	for(i = 0; i < REFFERENCE_NUM; i++) {
 		HAL_Delay(1);
 		accel_x_reference += accel_x_value;
-		accel_y_reference += accel_y_value;
-		accel_z_reference += accel_z_value;
-		gyro_x_reference += gyro_x_value;
-		gyro_y_reference += gyro_y_value;
 		gyro_z_reference += gyro_z_value;
 	}
 	accel_x_reference /= REFFERENCE_NUM;
-	accel_y_reference /= REFFERENCE_NUM;
-	accel_z_reference /= REFFERENCE_NUM;
-	gyro_x_reference /= REFFERENCE_NUM;
-	gyro_y_reference /= REFFERENCE_NUM;
 	gyro_z_reference /= REFFERENCE_NUM;
 }
 
@@ -165,7 +145,7 @@ void IMU_ResetReference( void )
 --------------------------------------------------------------- */
 float IMU_GetAccel_X( void )
 {
-	return ACCEL_X_SIGN * G * (accel_y_value - accel_y_reference) / ACCEL_X_SENSITIVITY;
+	return ACCEL_X_SIGN * G * (accel_x_value - accel_x_reference) / ACCEL_X_SENSITIVITY;
 }
 
 /* ---------------------------------------------------------------

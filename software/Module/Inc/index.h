@@ -50,7 +50,7 @@
 #define LED_YELLOW_ON()			HAL_GPIO_WritePin( LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET)		// 黄LEDを点灯する
 #define LED_YELLOW_OFF()		HAL_GPIO_WritePin( LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_RESET)	// 黄LEDを消灯する
 #define LED_YELLOW_TOGGLE()		HAL_GPIO_TogglePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin)					// この関数を呼ぶたびに黄LEDの点灯と消灯を切り替える
-#define LED_RED_ON()			HAL_GPIO_WritePin( LED_Red_GPIO_Port, 	 LED_RED_Pin, 	 GPIO_PIN_SET)		// 赤LEDを点灯する
+#define LED_RED_ON()			HAL_GPIO_WritePin( LED_RED_GPIO_Port, 	 LED_RED_Pin, 	 GPIO_PIN_SET)		// 赤LEDを点灯する
 #define LED_RED_OFF()			HAL_GPIO_WritePin( LED_RED_GPIO_Port, 	 LED_RED_Pin,    GPIO_PIN_RESET)	// 赤LEDを消灯する
 #define LED_RED_TOGGLE()		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, 	 LED_RED_Pin)						// この関数を呼ぶたびに赤LEDの点灯と消灯を切り替える
 #define LED_GREEN_ON()			HAL_GPIO_WritePin( LED_GREEN_GPIO_Port,  LED_GREEN_Pin,  GPIO_PIN_SET)		// 緑LEDを点灯する
@@ -68,10 +68,8 @@
 
 /* UART通信関数群(communicate.c) */
 /* 自動生成されたsyscalls.cをSrcファイルに移し、stdio.hをインクルードすることでprintfやscanfも使用可能 */
-void 		Communicate_TerminalSend( uint8_t );	// 1文字送信
 uint8_t 	Communicate_TerminalRecv( void );		// 1文字受信
 void 		Communicate_Initialize( void );			// printfとscanfを使用するための設定
-void 		Communicate_ClearScreen( void );		// 画面クリア&カーソル初期化
 
 /* モータ関数群(motor.c) */
 void 		Motor_Initialize( void );				// モータ駆動用タイマーの開始
@@ -99,7 +97,9 @@ void 		Sensor_StartADC( void );				// AD変換を開始する
 void 		Sensor_StopADC( void );					// AD変換を停止する
 uint16_t 	Sensor_GetBatteryValue( void );			// 電源電圧のAD値を取得する
 int16_t 	Sensor_GetValue( uint8_t );				// 赤外センサのLEDオンオフ差分値を取得する
-													// 0:前右、1:横右、2:横左、3:前左
+													// 0:横右、1:前右、2:横左、3:前左
+void 		Sensor_DebugPrintf( void );
+
 /* バッテリー関数群(battery.c) */
 float 		Battery_GetVoltage( void );				// バッテリの電圧を取得する[V]
 void 		Battery_LimiterVoltage( void );			// バッテリの電圧が3.2V以下になると起動しないように制限する
