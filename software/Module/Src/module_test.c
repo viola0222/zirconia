@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-#include "index.h"
+
+#include "module_index.h"
 
 
 /* ---------------------------------------------------------------
@@ -28,33 +28,17 @@ void module_test( void )
 	int16_t		duty_l	   = 0;
 	int16_t		duty_r	   = 0;
 
-	uint8_t* 	flash_adress;
-	uint8_t		boot_count = 0;
-
-	// DMAを一時的に停止
-	HAL_DMA_Abort(huart1.hdmarx);
-
 	// エンコーダのカウントをリセット
 	Encoder_ResetCount_Left();
 	Encoder_ResetCount_Right();
 
-	// 起動回数の読込み
-	flash_adress = Flash_Load();
-	boot_count = (*flash_adress) + 1;
+	// UARTの受信バッファをリセット
+	Communicate_ClearReceiveBuffer();
 
-	// 起動回数の書込み
-	(*flash_adress) = boot_count;
-	if( !Flash_Save() ) {
-		while( 1 ) {
-			LED_ALL_TOGGLE();
-			HAL_Delay(200);
-		}
-	} else;
+	// 壁センサ用AD変換の開始
+	Sensor_TurnOnLED();
 
 	while( 1 ) {
-		// 起動回数の表示
-		printf("<Boot Count> %5d\r\n", boot_count); line++;
-
 		// 割り込み処理率を表示
 		printf("<Boot Time> %8.3f[s]\r\n", Interrupt_GetBootTime()); line++;
 		printf("<Interrupt> %3.1f[%%] (MAX : %3.1f[%%])\r\n",
@@ -80,7 +64,7 @@ void module_test( void )
 				IMU_GetAccel_X(), IMU_GetGyro_Z()); line++;
 
 		// モータのDuty入力
-		key = Communicate_TerminalRecv();
+		key = Communicate_Receice1byte();
 		switch( key ) {
 			case '1': duty_l += 1;		break;
 			case 'q': duty_l -= 1;		break;
@@ -114,5 +98,6 @@ void module_test( void )
 	}
 	END:;
 	Motor_StopPWM();
+	Sensor_TurnOffLED();
 }
 

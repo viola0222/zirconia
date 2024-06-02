@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -28,7 +27,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "index.h"
+#include "module_index.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,6 +37,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -91,26 +91,26 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_USART1_UART_Init();
   MX_ADC1_Init();
-  MX_SPI2_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
-  MX_USART1_UART_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	LED_ALL_ON();				// LED全点灯
-	Communicate_Initialize();	// ターミナルとの通信初期設定
-	Motor_Initialize();			// モータ用タイマ初期設定
-	Encoder_Initialize();		// エンコーダー用タイマ初期設定
-	IMU_Initialize();			// IMU用通信およびICM20648の初期設定
-	Sensor_Initialize();		// 壁センサ用AD変換およびタイマ初期設定
-	Interrupt_Initialize();		// メイン割り込み処理の初期設定
+	Communicate_Initialize();	// ターミナルとの通信初期設�?
+	Motor_Initialize();			// モータ用タイマ�?�期設�?
+	Encoder_Initialize();		// エンコー�?ー用タイマ�?�期設�?
+	IMU_Initialize();			// IMU用通信およびICM42688Pの初期設�?
+	Sensor_Initialize();		// 壁センサ用AD変換およびタイマ�?�期設�?
+	Interrupt_Initialize();		// メイン割り込み処�?の初期設�?
+	Myshell_Initialize();		// シェルの初期設�?
 
-	Battery_LimiterVoltage();	// バッテリの電圧管理
-	Sensor_StartADC();			// 壁センサ用AD変換の開始
-	module_test();				// 各機能の動作確認（動作確認が完了したらコメントアウトして下さい）
+//	Battery_LimiterVoltage();	// バッ�?リの電圧管�?
+	module_test();				// �?機�?�の動作確認（動作確認が完�?したらコメントアウトして下さ�?�?
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -120,8 +120,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	// ここにメインループの処理を記述する
-
+	  // ここにメインループ�?�処�?を記述する
+	  Myshell_Execute();
   }
   /* USER CODE END 3 */
 }
@@ -151,8 +151,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = 16;
   RCC_OscInitStruct.PLL.PLLN = 192;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 2;
-  RCC_OscInitStruct.PLL.PLLR = 2;
+  RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -185,7 +184,10 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-
+  __disable_irq();
+  while (1)
+  {
+  }
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -201,7 +203,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

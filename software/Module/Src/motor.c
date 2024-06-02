@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-#include "index.h"
 
-#define PCLK			(HAL_RCC_GetPCLK1Freq())
-#define PWMFREQ			(100000)	// モータの動作周波数[Hz]
+#include "tim.h"
+#include "module_index.h"
+
+#define AUTORELOAD		(__HAL_TIM_GET_AUTORELOAD(&htim4))
 #define MOT_DUTY_MIN	(30)		// モータの最低Duty
 #define MOT_DUTY_MAX	(950)		// モータの最大Duty
 
@@ -54,14 +54,14 @@ void Motor_StopPWM( void )
 --------------------------------------------------------------- */
 void Motor_SetDuty_Left( int16_t duty_l )
 {
-	volatile uint32_t	pulse_l;
+	uint32_t	pulse_l;
 
 	if( ABS(duty_l) > MOT_DUTY_MAX ) {
-		pulse_l = (uint32_t)(PCLK / PWMFREQ * MOT_DUTY_MAX / 1000) - 1;
+		pulse_l = (uint32_t)(AUTORELOAD * MOT_DUTY_MAX / 1000) - 1;
 	} else if( ABS(duty_l) < MOT_DUTY_MIN ) {
-		pulse_l = (uint32_t)(PCLK / PWMFREQ * MOT_DUTY_MIN / 1000) - 1;
+		pulse_l = (uint32_t)(AUTORELOAD * MOT_DUTY_MIN / 1000) - 1;
 	} else {
-		pulse_l = (uint32_t)(PCLK / PWMFREQ * ABS(duty_l) / 1000) - 1;
+		pulse_l = (uint32_t)(AUTORELOAD * ABS(duty_l) / 1000) - 1;
 	}
 
 	if( duty_l > 0 ) {
@@ -81,14 +81,14 @@ void Motor_SetDuty_Left( int16_t duty_l )
 --------------------------------------------------------------- */
 void Motor_SetDuty_Right( int16_t duty_r )
 {
-	volatile uint32_t	pulse_r;
+	uint32_t	pulse_r;
 
 	if( ABS(duty_r) > MOT_DUTY_MAX ) {
-		pulse_r = (uint32_t)(PCLK / PWMFREQ * MOT_DUTY_MAX / 1000) - 1;
+		pulse_r = (uint32_t)(AUTORELOAD * MOT_DUTY_MAX / 1000) - 1;
 	} else if( ABS(duty_r) < MOT_DUTY_MIN ) {
-		pulse_r = (uint32_t)(PCLK / PWMFREQ * MOT_DUTY_MIN / 1000) - 1;
+		pulse_r = (uint32_t)(AUTORELOAD * MOT_DUTY_MIN / 1000) - 1;
 	} else {
-		pulse_r = (uint32_t)(PCLK / PWMFREQ * ABS(duty_r) / 1000) - 1;
+		pulse_r = (uint32_t)(AUTORELOAD * ABS(duty_r) / 1000) - 1;
 	}
 
 	if( duty_r > 0 ) {
@@ -102,5 +102,3 @@ void Motor_SetDuty_Right( int16_t duty_r )
 		MOT_SET_COMPARE_R_REVERSE( 0 );
 	}
 }
-
-

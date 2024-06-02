@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-#include "index.h"
+
+#include "module_index.h"
 
 typedef enum {
-	BATTERY_0 	= 0,
-	BATTERY_1 	= 1,
+	BATTERY_0	= 0,
+	BATTERY_1	= 1,
 	LED_FR_OFF 	= 2,
 	LED_FR_ON 	= 3,
 	LED_FL_OFF 	= 4,
@@ -27,16 +27,14 @@ typedef enum {
 	LED_SR_ON 	= 7,
 	LED_SL_OFF 	= 8,
 	LED_SL_ON 	= 9,
-	BATTERY_2 	= 10,
-	BATTERY_3 	= 11,
+	BATTERY_2	= 10,
+	BATTERY_3	= 11,
 	NUM_ADC,
 } t_sensor_mode;
 
-volatile static uint32_t	led_on_pattern[]  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};				// LED点灯コマンド
-volatile static uint32_t	led_off_pattern[] = {0x00F00000, 0x00F00000, 0x00F00000, 0x00F00000,
-										 	 	 0x00F00000, 0x00F00000, 0x00F00000, 0x00F00000,
-												 0x00F00000, 0x00F00000, 0x00F00000, 0x00F00000};	// LED消灯コマンド
-volatile static uint16_t	adc_value[NUM_ADC];		// AD変換値
+volatile static uint32_t	led_on_pattern[NUM_ADC] = {0};	// LED点灯コマンド
+volatile static uint32_t	led_off_pattern = 0x000F0000;	// LED消灯コマンド
+volatile static uint16_t	adc_value[NUM_ADC];				// AD変換値
 
 // 割り込み内の処理を記述した関数群
 extern void Interrupt_Main( void );
@@ -81,30 +79,12 @@ void Sensor_Initialize( void )
 	__HAL_TIM_MOE_ENABLE(&htim1);
 	__HAL_TIM_CLEAR_FLAG(&htim1, TIM_FLAG_UPDATE);
 
-	Sensor_TurnOnLED();
-	HAL_DMA_Start_IT(htim1.hdma[TIM_DMA_ID_CC1], (uint32_t)led_on_pattern,  (uint32_t)(&(GPIOA->BSRR)), NUM_ADC);
-	HAL_DMA_Start_IT(htim1.hdma[TIM_DMA_ID_CC2], (uint32_t)led_off_pattern, (uint32_t)(&(GPIOA->BSRR)), NUM_ADC);
+	HAL_DMA_Start_IT(htim1.hdma[TIM_DMA_ID_CC1], (uint32_t)led_on_pattern, (uint32_t)(&(GPIOA->BSRR)), NUM_ADC);
+	HAL_DMA_Start_IT(htim1.hdma[TIM_DMA_ID_CC2], (uint32_t)(&led_off_pattern), (uint32_t)(&(GPIOA->BSRR)), 1);
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_value, NUM_ADC);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-}
-
-/* ---------------------------------------------------------------
-	AD変換を開始する関数
---------------------------------------------------------------- */
-void Sensor_StartADC( void )
-{
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-}
-
-/* ---------------------------------------------------------------
-	AD変換を停止する関数
---------------------------------------------------------------- */
-void Sensor_StopADC( void )
-{
-	HAL_GPIO_WritePin(GPIOA, LED_FL_Pin|LED_SL_Pin|LED_SR_Pin|LED_FR_Pin, GPIO_PIN_RESET);
-	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
 }
 
 /* ---------------------------------------------------------------
@@ -134,11 +114,22 @@ int16_t Sensor_GetValue( uint8_t dir )
 --------------------------------------------------------------- */
 void Sensor_DebugPrintf( void )
 {
-	printf( "%5d (%4d - %3d), %5d (%4d - %3d), %5d (%4d - %3d), %5d (%4d - %3d)\r\n",
-			adc_value[LED_FL_ON] - adc_value[LED_FL_OFF], adc_value[LED_FL_ON], adc_value[LED_FL_OFF],
-			adc_value[LED_SL_ON] - adc_value[LED_SL_OFF], adc_value[LED_SL_ON], adc_value[LED_SL_OFF],
-			adc_value[LED_SR_ON] - adc_value[LED_SR_OFF], adc_value[LED_SR_ON], adc_value[LED_SR_OFF],
-			adc_value[LED_FR_ON] - adc_value[LED_FR_OFF], adc_value[LED_FR_ON], adc_value[LED_FR_OFF] );
+	Sensor_TurnOnLED();
+	while( Communicate_Receice1byte() != _ESC ) {
+		printf( "%5d (%4d - %3d), %5d (%4d - %3d), %5d (%4d - %3d), %5d (%4d - %3d)\r\n",
+				adc_value[LED_FL_ON] - adc_value[LED_FL_OFF], adc_value[LED_FL_ON], adc_value[LED_FL_OFF],
+				adc_value[LED_SL_ON] - adc_value[LED_SL_OFF], adc_value[LED_SL_ON], adc_value[LED_SL_OFF],
+				adc_value[LED_SR_ON] - adc_value[LED_SR_OFF], adc_value[LED_SR_ON], adc_value[LED_SR_OFF],
+				adc_value[LED_FR_ON] - adc_value[LED_FR_OFF], adc_value[LED_FR_ON], adc_value[LED_FR_OFF] );
+
+/*		printf("%5d", adc_value[0]);
+		for(uint8_t i = 1; i < sizeof(adc_value) / sizeof(adc_value[0]); i++) {
+			printf(" ,%5d", adc_value[i]);
+		}
+		printf("\r\n");
+*/		HAL_Delay(100);
+	}
+	Sensor_TurnOffLED();
 }
 
 

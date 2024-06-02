@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-#include "index.h"
+
+#include "module_index.h"
 
 #define PCLK			(HAL_RCC_GetPCLK2Freq())
 #define TIMER_COUNT		(__HAL_TIM_GET_COUNTER(&htim5))
@@ -28,11 +28,10 @@ volatile static float		boot_time = 0.f;
 
 
 /* ---------------------------------------------------------------
-	1ms周期で割り込み処理関数
+	1ms周期で割り込み処理関数(ここにメインの割り込み処理を記述する)
 --------------------------------------------------------------- */
 void Interrupt_Main( void )
 {
-	// ここにメインの割り込み処理を記述する
 
 }
 
@@ -49,8 +48,8 @@ void Interrupt_Initialize( void )
 --------------------------------------------------------------- */
 void Interrupt_PreProcess( void )
 {
-	volatile static uint32_t	interrupt_count_old = 0;
-	volatile static uint64_t	boot_time_count = 0;
+	static uint32_t		interrupt_count_old = 0;
+	static uint64_t		boot_time_count = 0;
 
 	interrupt_count_now = TIMER_COUNT;
 	boot_time_count += (uint16_t)(interrupt_count_now - interrupt_count_old);
@@ -63,8 +62,8 @@ void Interrupt_PreProcess( void )
 --------------------------------------------------------------- */
 void Interrupt_PostProcess( void )
 {
-	interrupt_duty = MIN(TIMER_COUNT - interrupt_count_now,
-						 TIMER_COUNT - interrupt_count_now + TIMER_LOAD) * 1000 / TIMER_LOAD;
+	interrupt_duty = MIN(ABS(TIMER_COUNT - interrupt_count_now),
+						 ABS(TIMER_COUNT - interrupt_count_now + TIMER_LOAD)) * 1000 / TIMER_LOAD;
 	interrupt_duty_max = MAX( interrupt_duty_max, interrupt_duty );
 }
 

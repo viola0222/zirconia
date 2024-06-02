@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-#include "index.h"
+
+#include "module_index.h"
 
 #define BATTERY_REFERENCE	(3.0f)
 #define BATTERY_LIMIT		(3.2f)

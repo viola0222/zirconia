@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "index.h"
+#include "module_index.h"
 #include <string.h>
 
 #define FLASH_SECTOR_NUM     FLASH_SECTOR_1
