@@ -1,0 +1,11 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Zirconia")(type "KiCad")(uri "${KIPRJMOD}/Zirconia/Zirconia.kicad_sym")(options "")(descr ""))
+  (lib (name "DRV8836DSSR")(type "KiCad")(uri "${KIPRJMOD}/DRV8836DSSR/DRV8836DSSR.kicad_sym")(options "")(descr ""))
+  (lib (name "ICM-42688-P")(type "KiCad")(uri "${KIPRJMOD}/ICM-42688-P/ICM-42688-P.kicad_sym")(options "")(descr ""))
+  (lib (name "LTC4054LES5-4.2")(type "KiCad")(uri "${KIPRJMOD}/LTC4054LES5-4.2/LTC4054LES5-4.2.kicad_sym")(options "")(descr ""))
+  (lib (name "STM32F411CEU6")(type "KiCad")(uri "${KIPRJMOD}/STM32F411CEU6/STM32F411CEU6.kicad_sym")(options "")(descr ""))
+  (lib (name "STLINK-V3MOS")(type "KiCad")(uri "${KIPRJMOD}/STLINK-V3MOS/STLINK-V3MOS.kicad_sym")(options "")(descr ""))
+  (lib (name "MA302GQ-P")(type "KiCad")(uri "${KIPRJMOD}/MA302GQ-P/MA302GQ-P.kicad_sym")(options "")(descr ""))
+  (lib (name "KMR211GLFS")(type "KiCad")(uri "${KIPRJMOD}/KMR211GLFS/KMR211GLFS.kicad_sym")(options "")(descr ""))
+)
