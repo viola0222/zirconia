@@ -3400,10 +3400,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "c465c70d-0a73-4e27-9740-2752218ddb19")
 		(property "Reference" "J2"
-			(at 161.29 101.5999 0)
+			(at 154.686 92.964 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3411,8 +3410,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x04"
-			(at 161.29 104.1399 0)
+		(property "Value" "AE-FT234X"
+			(at 151.13 95.504 0)
 			(effects
 				(font
 					(size 1.27 1.27)
