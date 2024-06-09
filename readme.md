@@ -30,6 +30,9 @@ ___
     - STM32CubeIDE
     - Version :  1.15.0
     - URL : https://www.st.com/ja/development-tools/stm32cubeide.html
+    - STM32CubeMX
+    - Version :  6.10.0
+    - URL : https://www.st.com/ja/development-tools/stm32cubemx.html    
 
 - フラッシュライター
 	- STM32CubeProgrammer
