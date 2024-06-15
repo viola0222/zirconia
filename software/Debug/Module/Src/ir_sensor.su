@@ -1,0 +1,7 @@
+../Module/Src/ir_sensor.c:47:6:HAL_ADC_ConvCpltCallback	16	static
+../Module/Src/ir_sensor.c:57:6:Sensor_TurnOffLED	16	static
+../Module/Src/ir_sensor.c:64:6:Sensor_TurnOnLED	8	static
+../Module/Src/ir_sensor.c:76:6:Sensor_Initialize	8	static
+../Module/Src/ir_sensor.c:93:10:Sensor_GetBatteryValue	4	static
+../Module/Src/ir_sensor.c:101:9:Sensor_GetValue	16	static
+../Module/Src/ir_sensor.c:115:6:Sensor_DebugPrintf	80	static

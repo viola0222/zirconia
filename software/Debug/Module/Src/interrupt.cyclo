@@ -1,0 +1,7 @@
+../Module/Src/interrupt.c:33:6:Interrupt_Main	1
+../Module/Src/interrupt.c:41:6:Interrupt_Initialize	1
+../Module/Src/interrupt.c:49:6:Interrupt_PreProcess	1
+../Module/Src/interrupt.c:63:6:Interrupt_PostProcess	3
+../Module/Src/interrupt.c:73:10:Interrupt_GetDuty	1
+../Module/Src/interrupt.c:81:10:Interrupt_GetDuty_Max	1
+../Module/Src/interrupt.c:89:7:Interrupt_GetBootTime	1

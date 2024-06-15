@@ -1,0 +1,8 @@
+../Module/Src/communicate.c:31:9:Communicate_ReceiveTest	1
+../Module/Src/communicate.c:38:9:Communicate_Receice1byte	3
+../Module/Src/communicate.c:72:6:Communicate_ClearReceiveBuffer	2
+../Module/Src/communicate.c:80:6:Communicate_TransmitTest	1
+../Module/Src/communicate.c:85:6:Communicate_Transmit1byte	5
+../Module/Src/communicate.c:142:6:Communicate_Initialize	1
+../Module/Src/communicate.c:163:1:__io_putchar	1
+../Module/Src/communicate.c:177:1:__io_getchar	2
