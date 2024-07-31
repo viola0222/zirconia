@@ -1,5 +1,9 @@
 Module/Src/myshell.o: ../Module/Src/myshell.c \
+<<<<<<< HEAD
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/module_index.h \
+=======
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Module/Inc/module_index.h \
+>>>>>>> e968368332e594be0bbbd6a99198443cc3b01749
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -34,6 +38,7 @@ Module/Src/myshell.o: ../Module/Src/myshell.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/adc.h ../Core/Inc/main.h ../Core/Inc/dma.h ../Core/Inc/spi.h \
  ../Core/Inc/tim.h ../Core/Inc/usart.h ../Core/Inc/gpio.h \
+<<<<<<< HEAD
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntshell.h \
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtrecv.h \
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtsend.h \
@@ -44,6 +49,18 @@ Module/Src/myshell.o: ../Module/Src/myshell.c \
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/ntopt.h \
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/../core/ntconf.h
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/module_index.h:
+=======
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntshell.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtrecv.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtsend.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/text_editor.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntconf.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/text_history.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntlibc.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/ntopt.h \
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/../core/ntconf.h
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Module/Inc/module_index.h:
+>>>>>>> e968368332e594be0bbbd6a99198443cc3b01749
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -84,6 +101,7 @@ C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/module_index.h:
 ../Core/Inc/tim.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/gpio.h:
+<<<<<<< HEAD
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntshell.h:
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtrecv.h:
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtsend.h:
@@ -93,3 +111,14 @@ C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntlibc.h:
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/ntopt.h:
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/../core/ntconf.h:
+=======
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntshell.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtrecv.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/vtsend.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/text_editor.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntconf.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/text_history.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/core/ntlibc.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/ntopt.h:
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib/util/../core/ntconf.h:
+>>>>>>> e968368332e594be0bbbd6a99198443cc3b01749

@@ -2,9 +2,9 @@
 ## 概要
 ___
 
-「zirconia v.2.0」はマイクロマウスのチャンピオンが製作したオープンソースのマイクロマウスをnakagawaが改訂した版です。 
-   
-zirconiaの紹介はmastarブランチに書かれています。  
+「zirconia v.2.0」はマイクロマウスのチャンピオンが製作したオープンソースのマイクロマウスをnakagawaが改訂した版です。
+ 
+詳しい説明は、[こちらのリンクの資料](https://docs.google.com/presentation/d/1BjXeR3dtw2jEZHByvPkCKbgB9d2WKhvbEWPhUpI-utg/edit?usp=sharing)を参照してください。
   
 ![zirconia v.2.0](zirconia_v.2.0.jpg)
 
@@ -48,6 +48,8 @@ ___
  
 - hardware
     - 回路図やガーバーデータ、部品リストなどハードウェアデータ
+    - STEP 3D View https://a360.co/4cjsH3n
+    
 - software
     - CubeMXで自動生成したソフトと本サンプルプログラム
     - Incフォルダ内のIndex.hにサンプルプログラムの使い方が記載されています
@@ -55,7 +57,7 @@ ___
 - ハードマニュアル
     - ハードウェアの作り方や構成について記載されています
 - ソフトマニュアル
-    - サンプルプログラムの導入や使い方について記載されています
+    - サンプルプログラムの導入や使い方について記載されていますS
  
 ## その他
  ___

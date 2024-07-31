@@ -1,5 +1,9 @@
 Module/Src/imu.o: ../Module/Src/imu.c \
+<<<<<<< HEAD
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/module_index.h \
+=======
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Module/Inc/module_index.h \
+>>>>>>> e968368332e594be0bbbd6a99198443cc3b01749
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -34,8 +38,13 @@ Module/Src/imu.o: ../Module/Src/imu.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/adc.h ../Core/Inc/main.h ../Core/Inc/dma.h ../Core/Inc/spi.h \
  ../Core/Inc/tim.h ../Core/Inc/usart.h ../Core/Inc/gpio.h \
+<<<<<<< HEAD
  C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/ICM42688P_Register.h
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/module_index.h:
+=======
+ C:/Users/nakagawa/bitbucket/zirconia_sample/software/Module/Inc/ICM42688P_Register.h
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Module/Inc/module_index.h:
+>>>>>>> e968368332e594be0bbbd6a99198443cc3b01749
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -76,4 +85,8 @@ C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/module_index.h:
 ../Core/Inc/tim.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/gpio.h:
+<<<<<<< HEAD
 C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc/ICM42688P_Register.h:
+=======
+C:/Users/nakagawa/bitbucket/zirconia_sample/software/Module/Inc/ICM42688P_Register.h:
+>>>>>>> e968368332e594be0bbbd6a99198443cc3b01749
