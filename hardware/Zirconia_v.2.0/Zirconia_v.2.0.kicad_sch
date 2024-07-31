@@ -14351,7 +14351,7 @@
 				)
 			)
 		)
-		(property "Value" "STM32F411CEU6/STM32F413CHU6"
+		(property "Value" "STM32F411CEU6"
 			(at 134.62 96.52 0)
 			(effects
 				(font
@@ -16281,7 +16281,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "BD125-10-A-0305-0580-L-B"
+		(property "Value" "X1321WVS-2x05J-C40D53"
 			(at 212.09 85.09 90)
 			(effects
 				(font
@@ -16327,6 +16327,15 @@
 			)
 		)
 		(property "Link" "https://www.digikey.jp/short/3v25zzt9"
+			(at 204.47 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part #" "X1321WVS-2x05J-C40D53"
 			(at 204.47 82.55 0)
 			(effects
 				(font
@@ -18518,7 +18527,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "MA302/MA730"
+		(property "Value" "MA730"
 			(at 211.7441 20.32 0)
 			(effects
 				(font
@@ -18964,7 +18973,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "PicoBlade_53047-0210"
+		(property "Value" "530470210"
 			(at 262.89 26.67 0)
 			(effects
 				(font
@@ -19920,7 +19929,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "MA302/MA730"
+		(property "Value" "MA730"
 			(at 177.4541 20.32 0)
 			(effects
 				(font

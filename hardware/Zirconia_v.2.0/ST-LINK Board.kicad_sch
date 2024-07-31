@@ -3299,7 +3299,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "BD125-10-A-0305-0580-L-B"
+		(property "Value" "X1321WVS-2x05J-C40D53"
 			(at 130.81 133.35 90)
 			(effects
 				(font
@@ -3345,6 +3345,15 @@
 			)
 		)
 		(property "Link" "https://www.digikey.jp/short/3v25zzt9"
+			(at 123.19 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part #" "X1321WVS-2x05J-C40D53"
 			(at 123.19 133.35 0)
 			(effects
 				(font

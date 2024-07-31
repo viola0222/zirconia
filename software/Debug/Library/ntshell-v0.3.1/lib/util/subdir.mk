@@ -19,7 +19,7 @@ C_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Library/ntshell-v0.3.1/lib/util/%.o Library/ntshell-v0.3.1/lib/util/%.su Library/ntshell-v0.3.1/lib/util/%.cyclo: ../Library/ntshell-v0.3.1/lib/util/%.c Library/ntshell-v0.3.1/lib/util/subdir.mk
-	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/nakagawa/STM32CubeIDE/workspace_1.14.2/zirconia_v.2.0/Module/Inc" -I"C:/Users/nakagawa/STM32CubeIDE/workspace_1.14.2/zirconia_v.2.0/Library/ntshell-v0.3.1/lib" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Module/Inc" -I"C:/Users/nakagawa/Bitbucket/zirconia_sample/software/Library/ntshell-v0.3.1/lib" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
 clean: clean-Library-2f-ntshell-2d-v0-2e-3-2e-1-2f-lib-2f-util
 

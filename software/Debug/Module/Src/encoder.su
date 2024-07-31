@@ -1,0 +1,6 @@
+../Module/Src/encoder.c:28:6:Encoder_Initialize	8	static
+../Module/Src/encoder.c:37:6:Encoder_ResetCount_Left	4	static
+../Module/Src/encoder.c:45:6:Encoder_ResetCount_Right	4	static
+../Module/Src/encoder.c:53:7:Encoder_GetAngle_Left	4	static
+../Module/Src/encoder.c:61:7:Encoder_GetAngle_Right	4	static
+../Module/Src/encoder.c:69:6:Encoder_DebugPrintf	40	static

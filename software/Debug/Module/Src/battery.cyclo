@@ -1,0 +1,2 @@
+../Module/Src/battery.c:26:7:Battery_GetVoltage	1
+../Module/Src/battery.c:34:6:Battery_LimiterVoltage	3
