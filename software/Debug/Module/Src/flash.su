@@ -1,3 +1,0 @@
-../Module/Src/flash.c:34:9:Flash_Clear	40	static
-../Module/Src/flash.c:58:10:Flash_Load	8	static
-../Module/Src/flash.c:67:9:Flash_Save	32	static

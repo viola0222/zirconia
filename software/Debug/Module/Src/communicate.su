@@ -1,8 +1,0 @@
-../Module/Src/communicate.c:31:9:Communicate_ReceiveTest	16	static
-../Module/Src/communicate.c:38:9:Communicate_Receice1byte	16	static,ignoring_inline_asm
-../Module/Src/communicate.c:72:6:Communicate_ClearReceiveBuffer	8	static
-../Module/Src/communicate.c:80:6:Communicate_TransmitTest	16	static
-../Module/Src/communicate.c:85:6:Communicate_Transmit1byte	24	static,ignoring_inline_asm
-../Module/Src/communicate.c:142:6:Communicate_Initialize	8	static
-../Module/Src/communicate.c:163:1:__io_putchar	16	static
-../Module/Src/communicate.c:177:1:__io_getchar	16	static

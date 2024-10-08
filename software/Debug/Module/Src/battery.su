@@ -1,2 +1,0 @@
-../Module/Src/battery.c:26:7:Battery_GetVoltage	8	static
-../Module/Src/battery.c:34:6:Battery_LimiterVoltage	16	static
