@@ -1,0 +1,9 @@
+# ビルド方法
+## cmake
+
+- cmake . -B build -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS=on
+
+## ninja
+
+- cd build
+- ninja
