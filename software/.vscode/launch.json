@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Cortex Debug",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/zirconia2.elf",
+            "request": "launch",
+            "preLaunchTask": "Build project",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink-v2-1.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "armToolchainPath": "C:\\Users\\reko\\STM32CubeIDE\\zirconia_sample\\software\\arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi\\bin\\",
+            "serverpath": "C:\\bin\\openocd\\bin\\openocd.exe"
+        }
+    ]
+}

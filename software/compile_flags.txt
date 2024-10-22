@@ -1,0 +1,10 @@
+-Iarm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/include
+-I.
+-IModule/Inc
+-ILibrary/ntshell-v0.3.1/lib
+-ILibrary/ntshell-v0.3.1/lib/core
+-ILibrary/ntshell-v0.3.1/lib/util
+-IDrivers/CMSIS/Device/ST/STM32F4xx/Include
+-IDrivers/CMSIS/Include
+-IDrivers/STM32F4xx_HAL_Driver/Inc
+-ICore/Inc

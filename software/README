@@ -1,9 +1,14 @@
 # ビルド方法
-## cmake
+## make
 
-- cmake . -B build -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS=on
+```bash
+make
+```
 
-## ninja
+## clangd
 
-- cd build
-- ninja
+- 次の内容の `compile_flags.txt` を作成することで、clangd による補完が動作するようになる
+
+```
+-I./arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/arm-none-eabi/include
+```

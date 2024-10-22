@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "type": "shell",
+    "echoCommand": true,
+    "tasks": [
+        {
+            "label": "Build project",
+            "command": "make",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

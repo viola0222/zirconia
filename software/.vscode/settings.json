@@ -1,0 +1,40 @@
+{
+    "makefile.configureOnOpen": false,
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "*.ejs": "html",
+        "gpio.h": "c",
+        "stm32l4xx_it.h": "c",
+        "ratio": "cpp",
+        "*.tcc": "cpp",
+        "fstream": "cpp",
+        "array": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "main.h": "c",
+        "stm32f4xx_ll_bus.h": "c",
+        "compare": "cpp",
+        "cstdint": "cpp",
+        "random": "cpp",
+        "*.h": "cpp"
+    },
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build",
+        "--header-insertion=never",
+        "--clang-tidy",
+        "--enable-config"
+    ],
+    "cmake.configureOnOpen": false,
+    "stm32-for-vscode.openOCDPath": false,
+    "stm32-for-vscode.armToolchainPath": false,
+    "makefile.compileCommandsPath": "build/compile_commands.json",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "c:\\Users\\reko\\STM32CubeIDE\\zirconia_sample\\software\\build",
+            "binaryPath": "c:\\Users\\reko\\STM32CubeIDE\\zirconia_sample\\software\\build\\Zirconia2.elf",
+            "binaryArgs": []
+        }
+    ],
+}
